@@ -91,6 +91,14 @@
 	tools = list(/obj/item/weapon/screwdriver)
 	time = 20
 
+/datum/table_recipe/incend_bat
+	name = "A Makeshift Incendiary Bat"
+	result = /obj/item/weapon/makeshift/incend_bat
+	reqs = list(/obj/item/stack/rods = 3,
+				/obj/item/device/assembly/igniter = 1,
+				/obj/item/weapon/tank/plasma = 1,
+				/obj/item/device/assembly/prox_sensor = 1)
+
 /datum/table_recipe/meteorshot
 	name = "Meteorshot Shell"
 	result = /obj/item/ammo_casing/shotgun/meteorshot
