@@ -41,13 +41,13 @@
 		user.drop_item()
 		I = W
 		W.loc = src
+		force = 40
 		return
 
 /obj/item/weapon/makeshift/incend_bat/attack(mob/target as mob, mob/living/user as mob)
 
 	var/mob/living/L = target
 	L.IgniteMob()
-	var/obj/item/weapon/makeshift/incend_bat/force = 40
 	..()
 	user << "The bat shatters and [target] bursts into flames!"
 	del (src)
