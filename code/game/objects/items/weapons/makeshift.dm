@@ -38,10 +38,10 @@
 			user << "\red Well that was dumb..."
 			del (src)
 			return
+		src.force = 40
 		user.drop_item()
 		I = W
 		W.loc = src
-		force = 40
 		return
 
 /obj/item/weapon/makeshift/incend_bat/attack(mob/target as mob, mob/living/user as mob)
