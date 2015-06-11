@@ -73,8 +73,9 @@
 /var/const/access_ntrep = 73
 /var/const/access_magistrate = 74
 /var/const/access_minisat = 75
-/var/const/access_hosarmory = 76
-/var/const/access_caparmory = 77
+/var/const/access_hosexclusive = 76
+/var/const/access_capexclusive = 77
+/var/const/access_ceexclusive = 78
 
 /var/const/access_weapons = 99 //Weapon authorization for secbots
 

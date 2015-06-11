@@ -34,7 +34,11 @@
 	if(isigniter(W))
 		if(I)
 			var/mob/living/L = W
+			L.fire_stacks = min(5,L.fire_stacks + 3)
 			L.IgniteMob()
+			L.adjustToxLoss(1)
+			L.adjustFireLoss(1)
+			L.adjustBrainLoss(5)
 			user << "\red Well that was dumb..."
 			del (src)
 			return
@@ -45,9 +49,15 @@
 		return
 
 /obj/item/weapon/makeshift/incend_bat/attack(mob/target as mob, mob/living/user as mob)
-
-	var/mob/living/L = target
-	L.IgniteMob()
+	if(I)
+		var/mob/living/L = target
+		L.fire_stacks = min(5,L.fire_stacks + 3)
+		L.IgniteMob()
+		L.adjustToxLoss(1)
+		L.adjustFireLoss(1)
+		L.adjustBrainLoss(5)
+		..()
+		user << "\red \b The bat shatters and [target] bursts into flames!"
+		del (src)
+		return
 	..()
-	user << "The bat shatters and [target] bursts into flames!"
-	del (src)

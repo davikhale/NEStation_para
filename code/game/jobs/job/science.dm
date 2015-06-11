@@ -10,11 +10,11 @@
 	req_admin_notify = 1
 	access = list(access_rd, access_heads, access_tox, access_genetics, access_morgue,
 			            access_tox_storage, access_tech_storage, access_teleporter, access_sec_doors,
-			            access_research, access_robotics, access_xenobiology, access_ai_upload,
+			            access_research, access_robotics, access_xenobiology,
 			            access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway, access_xenoarch, access_minisat)
 	minimal_access = list(access_eva, access_rd, access_heads, access_tox, access_genetics, access_morgue,
 			            access_tox_storage, access_tech_storage, access_teleporter, access_sec_doors,
-			            access_research, access_robotics, access_xenobiology, access_ai_upload,
+			            access_research, access_robotics, access_xenobiology,
 			            access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway, access_xenoarch, access_minisat, access_maint_tunnels)
 	minimal_player_age = 21
 

@@ -352,8 +352,7 @@
 					access_mailsorting, access_mint, access_mint_vault, access_heads_vault, access_mining_station, access_xenobiology,
 					access_ce, access_hop, access_hos, access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway,
 					access_sec_doors, access_psychiatrist, access_xenoarch, access_paramedic, access_blueshield, access_salvage_captain,
-					access_mechanic, access_pilot, access_ntrep, access_magistrate, access_minisat
-)
+					access_mechanic, access_pilot, access_ntrep, access_magistrate, access_minisat)
 		..()
 
 /obj/item/weapon/card/id/centcom
