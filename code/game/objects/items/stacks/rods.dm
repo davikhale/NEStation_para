@@ -52,7 +52,7 @@
 		//I really hate to do it this way but I don't really know what I'm doing :P --MadSnailDisease
 		//TODO: Be smart and make the incend bat buildable like everything else (e.g. the flamethrower)
 		new /obj/item/weapon/makeshift/incend_bat(user.loc)
-		user << "You mold the rods into a bat and add the phoron tank"
+		user << "You twist the rods into a bat and add the phoron tank"
 		del (src)
 	..()
 
