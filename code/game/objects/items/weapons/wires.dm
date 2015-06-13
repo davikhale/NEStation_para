@@ -32,11 +32,3 @@
 	else
 		user << "\blue You are not using this to lay wire..."
 	return
-
-/obj/item/weapon/wire/attack(obj/item/weapon/W as obj, mob/user as mob, params)
-	if(istype(W, /obj/item/weapon/wire) && src.amount >= 10.0)
-		new /obj/item/weapon/makeshift/flail(user.loc)
-		user << "\blue You tightly secure [src.amount] wires to the toolbox"
-		del (src)
-		return
-	..()

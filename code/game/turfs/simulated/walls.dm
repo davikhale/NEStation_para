@@ -317,7 +317,7 @@
 
 	//THERMITE related stuff. Calls src.thermitemelt() which handles melting simulated walls and the relevant effects
 	if( thermite )
-		if( istype(W, /obj/item/weapon/weldingtool) )
+		if( istype(W, /obj/item/weapon/weldingtool))
 			var/obj/item/weapon/weldingtool/WT = W
 			if( WT.remove_fuel(0,user) )
 				thermitemelt(user)

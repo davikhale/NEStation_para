@@ -20,6 +20,14 @@
 	origin_tech = "magnets=1;engineering=1"
 	var/obj/machinery/buffer // simple machine buffer for device linkage
 
+/obj/item/device/multitool/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+	if(istype(W, /obj/item/weapon/stock_parts/cell))
+		user.drop_item()
+		W.loc = src
+		user << "<span class='notice'>You install a cell in [src].</span>"
+		update_icon()
+
+
 /obj/item/device/multitool/proc/IsBufferA(var/typepath)
 	if(!buffer)
 		return 0
