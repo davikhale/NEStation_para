@@ -6,7 +6,7 @@
 	density = 1
 	explosion_block = 2
 	damage_cap = 200
-	max_temperature = 6000
+	max_temperature = 10000
 
 	walltype = "rwall"
 

@@ -164,8 +164,11 @@
 	brightness_color = "#a0a080"
 	desc = "A small lighting fixture."
 	light_type = /obj/item/weapon/light/bulb
-
-// the desk lamps are a bit special
+/*
+/obj/machinery/light/small/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+	if(istype(W,
+*/
+// the desk lamps are a bit special //should these be moved to somewhere else? --MadSnailDisease
 /obj/machinery/light/small/lamp
 	name = "desk lamp"
 	icon_state = "lamp1"

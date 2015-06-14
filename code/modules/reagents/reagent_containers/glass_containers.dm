@@ -292,6 +292,22 @@
 	possible_transfer_amounts = list(5,10,15,25)
 	flags = OPENCONTAINER
 
+/obj/item/weapon/reagent_containers/glass/beaker/lightbulb //bear with me
+	name = "modified lightbulb"
+	desc = "A small lightbulb with duct tape on it"
+	icon_state = "lightbulb"
+	g_amt = 500
+	volume = 50
+	amount_per_transfer_from_this = 0
+	possible_transfer_amounts = list(0)
+
+/obj/item/weapon/reagent_containers/glass/beaker/lightbulb/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+	if(istype(W, /obj/item/weapon/reagent_containers/syringe))
+		..()
+		return //see? --MadSnailDisease
+	else
+		return
+
 /obj/item/weapon/reagent_containers/glass/beaker/noreact
 	name = "cryostasis beaker"
 	desc = "A cryostasis beaker that allows for chemical storage without reactions. Can hold up to 50 units."

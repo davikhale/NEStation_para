@@ -22,10 +22,11 @@
 
 /obj/item/device/multitool/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(istype(W, /obj/item/weapon/stock_parts/cell))
-		user.drop_item()
-		W.loc = src
+		var/obj/item/weapon/stock_parts/cell/L = W
+		L.loc = src
 		user << "<span class='notice'>You install a cell in [src].</span>"
-		update_icon()
+		new /obj/item/weapon/makeshift/tazer(user.loc)
+		del (src)
 
 
 /obj/item/device/multitool/proc/IsBufferA(var/typepath)

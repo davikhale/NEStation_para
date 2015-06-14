@@ -57,33 +57,44 @@
 	icon_state = "flail0" //ignore this, I changed the name at one point -- MadSnailDisease
 	var/status = 0
 	var/attack_time = 0
-	var/charge_tick = 0
+	var/charge_tick = 4
 	hitsound = "sounds/weapons/punch1.ogg"
 
 /obj/item/weapon/makeshift/mace/attack(mob/target as mob, mob/living/user as mob)
-	if(status)
-		if (prob(10))
-			user << "The cables snap and disconnects from the toolbox!"
-			new /obj/item/weapon/storage/toolbox/mechanical(user.loc)
+	if(process())
+		if(status)
+			if (prob(10))
+				user << "The cables snap and disconnects from the toolbox!"
+				user << "<span class='notice'>The toolbox hits the ground and fall apart</span>"
+				new /obj/item/stack/cable_coil(user.loc)
+				del (src)
+				return
+			..()
+		else
+			..()
+			user << "\red The toolbox flips open and disconnects from the wires!"
 			new /obj/item/stack/cable_coil(user.loc)
+			new /obj/item/weapon/storage/toolbox/mechanical(user.loc)
 			del (src)
-			return
-		..()
+		return
 	else
-		..()
-		user << "\red The toolbox flips open and disconnects from the wires!"
-		new /obj/item/stack/cable_coil(user.loc)
-		new /obj/item/weapon/storage/toolbox/mechanical(user.loc)
-		del (src)
+		user << "<span class='notice'>You are too tired to do that!</span>"
 
 /obj/item/weapon/makeshift/mace/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
 	if(iswelder(W) && !status)
-		src.force = 15
+		src.force = 20
 		src.status = 1
 		user << "\blue You weld the toolbox shut"
 		src.icon_state = "flail1"
 		return
 	..()
+
+/obj/item/weapon/makeshift/mace/process()
+	charge_tick++
+	if(charge_tick < 4)
+		return 0
+	charge_tick = 0
+	return 1
 
 /obj/item/weapon/makeshift/tazer
 	name = "makeshift tazer"
