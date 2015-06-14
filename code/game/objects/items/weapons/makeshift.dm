@@ -1,4 +1,4 @@
-/obj/item/weapon/makeshift/incend_bat
+/obj/item/weapon/makeshift/incend_bat //test again
 	name = "makeshift incendiary bat"
 	desc = "A bat with a homemade incendiary charge on it. This end forward."
 	icon = 'icons/obj/makeshift.dmi'
