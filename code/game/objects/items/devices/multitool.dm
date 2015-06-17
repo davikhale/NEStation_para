@@ -20,6 +20,15 @@
 	origin_tech = "magnets=1;engineering=1"
 	var/obj/machinery/buffer // simple machine buffer for device linkage
 
+/obj/item/device/multitool/attackby(obj/item/weapon/W as obj, mob/user as mob, params)
+	if(istype(W, /obj/item/weapon/stock_parts/cell))
+		var/obj/item/weapon/stock_parts/cell/L = W
+		L.loc = src
+		user << "<span class='notice'>You install a cell in [src].</span>"
+		new /obj/item/weapon/makeshift/tazer(user.loc)
+		del (src)
+
+
 /obj/item/device/multitool/proc/IsBufferA(var/typepath)
 	if(!buffer)
 		return 0

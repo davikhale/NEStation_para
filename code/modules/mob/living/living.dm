@@ -501,7 +501,6 @@
 
 		else if(CM.legcuffed && CM.canmove && (CM.last_special <= world.time)) //this passes CM because the proc requires a typecasted mob/living/carbon instead of just 'src'
 			resist_legcuffs(CM)
-
 /*////////////////////
 	RESIST SUBPROCS
 */////////////////////

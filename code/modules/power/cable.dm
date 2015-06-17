@@ -305,6 +305,12 @@
 			C.give(amt)
 			src.use(amt)
 			return
+	else if(istype(W, /obj/item/weapon/storage/toolbox) && (src.amount == MAXCOIL))
+		var/obj/item/weapon/stock_parts/cell/L = W
+		L.loc = src
+		user << "\blue You tightly secure the coil to the toolbox."
+		new /obj/item/weapon/makeshift/mace(user.loc)
+		del (src)
 
 /obj/item/stack/cable_coil/use(var/used)
 	if(src.amount < used)
