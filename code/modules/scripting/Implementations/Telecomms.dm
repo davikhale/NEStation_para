@@ -50,6 +50,8 @@
 
 		interpreter.container = src
 
+		// Constants
+
 		interpreter.SetVar("PI"		, 	3.141592653)	// value of pi
 		interpreter.SetVar("E" 		, 	2.718281828)	// value of e
 		interpreter.SetVar("SQURT2" , 	1.414213562)	// value of the square root of 2
@@ -62,6 +64,7 @@
 		interpreter.SetVar("WEST" 	, 	WEST)			// WEST  (8)
 
 		// Channel macros
+
 		interpreter.SetVar("$common",	1459)
 		interpreter.SetVar("$science",	1351)
 		interpreter.SetVar("$command",	1353)
@@ -70,7 +73,7 @@
 		interpreter.SetVar("$security",	1359)
 		interpreter.SetVar("$supply",	1347)
 		interpreter.SetVar("$service",	1349)
-		
+
 		// Signal data
 
 		interpreter.SetVar("$content", 	signal.data["message"])
