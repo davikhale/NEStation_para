@@ -8,7 +8,6 @@
 #ignore any files in config/, except those in subdirectories.
 /config/*
 !/config/*/*
-!/config/example
 
 #ignore other, specific files and folers
 data/
@@ -16,4 +15,3 @@ data/
 /_maps/map_files/**/backup/*
 /_maps/map_files/**/*.dmm.backup
 /nano/debug.html
-
