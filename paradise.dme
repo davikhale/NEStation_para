@@ -89,6 +89,8 @@
 // END_PREFERENCES
 // BEGIN_INCLUDE
 #include "_maps\cyberiad.dm"
+#include "_maps\map_files\cyberiad\cyberiad.dmm"
+#include "_maps\map_files\cyberiad\z2.dmm"
 #include "code\_compile_options.dm"
 #include "code\hub.dm"
 #include "code\stylesheet.dm"
@@ -1043,7 +1045,7 @@
 #include "code\modules\client\client defines.dm"
 #include "code\modules\client\client procs.dm"
 #include "code\modules\client\preferences.dm"
-#include "code\modules\client\preferences_mysql.dm"
+#include "code\modules\client\preferences_savefile.dm"
 #include "code\modules\client\preferences_spawnpoints.dm"
 #include "code\modules\client\preferences_toggles.dm"
 #include "code\modules\clothing\clothing.dm"
@@ -1311,6 +1313,7 @@
 #include "code\modules\mob\mob_movement.dm"
 #include "code\modules\mob\mob_transformation_simple.dm"
 #include "code\modules\mob\say.dm"
+#include "code\modules\mob\texttospeech.dm"
 #include "code\modules\mob\transform_procs.dm"
 #include "code\modules\mob\typing_indicator.dm"
 #include "code\modules\mob\update_icons.dm"
