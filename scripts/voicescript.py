@@ -21,8 +21,8 @@ except ImportError:
     import os
     DEVNULL = open(os.devnull, 'wb')
 
-playervoicespath = "C:/Users/Derek/Desktop/NEStation_para/sound/playervoices/"
-scriptspath = "C:/Users/Derek/Desktop/NEStation_para/scripts/"
+playervoicespath = "C:/Users/Administrator/Desktop/NEStation_para/sound/playervoices/" #Fix the filepath for the VPS
+scriptspath = "C:/Users/Administrator/Desktop/NEStation_para/scripts/" #Fix the filepath for the VPS
 deletequeue = []
 
 class VoiceThread(threading.Thread):
