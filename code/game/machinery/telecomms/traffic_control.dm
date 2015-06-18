@@ -191,7 +191,7 @@
 
 			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", network) as null|text
 
-			if(newnet && canAccess(usr))
+			if(newnet)
 				if(length(newnet) > 15)
 					temp = "<font color = #D70B00>- FAILED: NETWORK TAG STRING TOO LENGHTLY -</font color>"
 
@@ -241,8 +241,3 @@
 		playsound(get_turf(src), 'sound/effects/sparks4.ogg', 75, 1)
 		emagged = 1
 		user << "\blue You you disable the security protocols"
-
-/obj/machinery/computer/telecomms/traffic/proc/canAccess(var/mob/user)
-	if(issilicon(user) || in_range(user, src))
-		return 1
-	return 0
