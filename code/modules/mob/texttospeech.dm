@@ -55,7 +55,7 @@
 		var/params = list2params(voiceslist)
 		//params = replacetext(params, "&", "^&")
 
-		call("Voice.dll", "writevoice")(params)
+		call("voice.dll", "writevoice")(params)
 		//shell("cmd /C echo [params]>>scripts\\voicequeue.txt")
 
 /mob/proc/halltexttospeech(var/text, var/speed, var/pitch, var/accent, var/voice, var/echo)

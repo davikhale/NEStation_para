@@ -8,7 +8,8 @@
 #ignore any files in config/, except those in subdirectories.
 /config/*
 !/config/*/*
-!/config/*
+!/config/example
+!/config/names
 
 #ignore other, specific files and folers
 data/
