@@ -22,17 +22,18 @@ client/verb/tcssave()
 			if(Machine.editingcode != mob)
 				return
 
-			if(Machine.SelectedServer)
-				var/obj/machinery/telecomms/server/Server = Machine.SelectedServer
+			if(Machine.SelectedMachine)
+				var/obj/machinery/machine = Machine.SelectedMachine
 				var/tcscode=winget(src, "tcscode", "text")
-				var/msg="[mob.name] is adding script to server [Server]: [tcscode]"
+				var/msg="[mob.name] is adding script to server [machine]: [tcscode]"
 				diary << msg
-				message_admins("[mob.name] has uploaded a NTSL script to [Machine.SelectedServer] ([mob.x],[mob.y],[mob.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[mob.x];Y=[mob.y];Z=[mob.z]'>JMP</a>)",0,1)
-				Server.setcode( tcscode ) // this actually saves the code from input to the server
+				message_admins("[mob.name] has uploaded a NTSL script to [Machine.SelectedMachine] ([mob.x],[mob.y],[mob.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[mob.x];Y=[mob.y];Z=[mob.z]'>JMP</a>)",0,1)
+				machine.setcode( tcscode ) // this actually saves the code from input to the server
 				src << output(null, "tcserror") // clear the errors
 			else
 				src << output(null, "tcserror")
 				src << output("<font color = red>Failed to save: Unable to locate server machine. (Back up your code before exiting the window!)</font color>", "tcserror")
+
 		else
 			src << output(null, "tcserror")
 			src << output("<font color = red>Failed to save: Unable to locate machine. (Back up your code before exiting the window!)</font color>", "tcserror")
@@ -90,10 +91,10 @@ client/verb/tcscompile()
 			if(Machine.editingcode != mob)
 				return
 
-			if(Machine.SelectedServer)
-				var/obj/machinery/telecomms/server/Server = Machine.SelectedServer
-				Server.setcode( winget(src, "tcscode", "text") ) // save code first
-				var/list/compileerrors = Server.compile() // then compile the code!
+			if(Machine.SelectedMachine)
+				var/obj/machinery/machine = Machine.SelectedMachine
+				machine.setcode( winget(src, "tcscode", "text") ) // save code first
+				var/list/compileerrors = machine.compile() // then compile the code!
 
 				// Output all the compile-time errors
 				src << output(null, "tcserror")
@@ -196,10 +197,10 @@ client/verb/tcsrun()
 			if(Machine.editingcode != mob)
 				return
 
-			if(Machine.SelectedServer)
-				var/obj/machinery/telecomms/server/Server = Machine.SelectedServer
-				Server.setcode( winget(src, "tcscode", "text") ) // save code first
-				var/list/compileerrors = Server.compile() // then compile the code!
+			if(Machine.SelectedMachine)
+				var/obj/machinery/machine = Machine.SelectedMachine
+				machine.setcode( winget(src, "tcscode", "text") ) // save code first
+				var/list/compileerrors = machine.compile() // then compile the code!
 
 				// Output all the compile-time errors
 				src << output(null, "tcserror")
@@ -231,16 +232,16 @@ client/verb/tcsrun()
 
 					var/datum/signal/signal = new()
 					signal.data["message"] = ""
-					if(Server.freq_listening.len > 0)
-						signal.frequency = Server.freq_listening[1]
+					if(machine.freq_listening.len > 0)
+						signal.frequency = machine.freq_listening[1]
 					else
 						signal.frequency = 1459
 					signal.data["name"] = ""
 					signal.data["job"] = ""
 					signal.data["reject"] = 0
-					signal.data["server"] = Server
+					signal.data["server"] = machine
 
-					Server.Compiler.Run(signal)
+					machine.Compiler.Run(signal)
 
 
 			else
@@ -300,11 +301,11 @@ client/verb/tcsrevert()
 			if(Machine.editingcode != mob)
 				return
 
-			if(Machine.SelectedServer)
-				var/obj/machinery/telecomms/server/Server = Machine.SelectedServer
+			if(Machine.SelectedMachine)
+				var/obj/machinery/machine = Machine.SelectedMachine
 
 				// Replace quotation marks with quotation macros for proper winset() compatibility
-				var/showcode = replacetext(Server.rawcode, "\\\"", "\\\\\"")
+				var/showcode = replacetext(machine.rawcode, "\\\"", "\\\\\"")
 				showcode = replacetext(showcode, "\"", "\\\"")
 
 				winset(mob, "tcscode", "text=\"[showcode]\"")
@@ -346,9 +347,9 @@ client/verb/tcsclearmem()
 			if(Machine.editingcode != mob)
 				return
 
-			if(Machine.SelectedServer)
-				var/obj/machinery/telecomms/server/Server = Machine.SelectedServer
-				Server.memory = list() // clear the memory
+			if(Machine.SelectedMachine)
+				var/obj/machinery/machine = Machine.SelectedMachine
+				machine.memory = list() // clear the memory
 				// Show results
 				src << output(null, "tcserror")
 				src << output("<font color = blue>Server memory cleared!</font color>", "tcserror")

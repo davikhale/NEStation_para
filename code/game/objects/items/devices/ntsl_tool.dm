@@ -17,11 +17,11 @@
 	origin_tech = "magnets=1;engineering=2;programming=2"
 
 	var/screen = 0				// the screen number:
-	var/list/servers = list()	// the servers located by the computer
+	var/list/machines = list()	// the machines located by the gun
 	var/mob/editingcode
 	var/mob/lasteditor
 	var/list/viewingcode = list()
-	var/obj/machinery/telecomms/server/SelectedServer
+	var/obj/machinery/SelectedMachine
 
 	var/network = "NULL"		// the network to probe
 	var/temp = ""				// temporary feedback messages
@@ -92,36 +92,44 @@
 			usr << "\red ACCESS DENIED."
 			return
 
-		if(href_list["viewserver"])
+		if(href_list["viewmachine"])
 			screen = 1
-			for(var/obj/machinery/telecomms/T in servers)
-				if(T.id == href_list["viewserver"])
-					SelectedServer = T
+			for(var/obj/machinery/telecomms/M in machines)
+				if(M.id == href_list["viewmachine"])
+					SelectedMachine = M
+					break
+			for(var/obj/machinery/door/airlock/M in machines)
+				if(M.id == href_list["viewmachine"])
+					SelectedMachine = M
 					break
 
 		if(href_list["operation"])
 			switch(href_list["operation"])
 
 				if("release")
-					servers = list()
+					machines = list()
 					screen = 0
 
 				if("mainmenu")
 					screen = 0
 
 				if("scan")
-					if(servers.len > 0)
+					if(machines.len > 0)
 						temp = "<font color = #D70B00>- FAILED: CANNOT PROBE WHEN BUFFER FULL -</font color>"
 
 					else
-						for(var/obj/machinery/telecomms/server/T in range(range, usr))
-							if(T.network == network)
-								servers.Add(T)
+						for(var/obj/machinery/telecomms/server/M in range(range, usr))
+							if(M.network == network)
+								machines.Add(M)
 
-						if(!servers.len)
-							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE SERVERS IN \[[network]\] -</font color>"
+						for(var/obj/machinery/door/airlock/M in range(range, usr))
+							if(M.network == network)
+								machines.Add(M)
+
+						if(!machines.len)
+							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE MACHINES IN \[[network]\] -</font color>"
 						else
-							temp = "<font color = #336699>- [servers.len] SERVERS PROBED & BUFFERED -</font color>"
+							temp = "<font color = #336699>- [machines.len] MACHINES PROBED & BUFFERED -</font color>"
 
 						screen = 0
 
@@ -150,7 +158,7 @@
 						winset(usr, "tcscode", "text=\"[showcode]\"")
 
 				if("togglerun")
-					SelectedServer.autoruncode = !(SelectedServer.autoruncode)
+					SelectedMachine.autoruncode = !(SelectedMachine.autoruncode)
 
 		if(href_list["network"])
 
@@ -164,7 +172,7 @@
 
 					network = newnet
 					screen = 0
-					servers = list()
+					machines = list()
 					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[network]\] -</font color>"
 
 		if(href_list["range"])
@@ -206,10 +214,12 @@ obj/item/device/ntsl_tool/interact(mob/user as mob)
 		if(0)
 			dat += "<br>[temp]<br>"
 			dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[network]</a><br>"
-			if(servers.len)
-				dat += "<br>Detected Telecommunication Servers:<ul>"
-				for(var/obj/machinery/telecomms/T in servers)
-					dat += "<li><a href='?src=\ref[src];viewserver=[T.id]'>\ref[T] [T.name]</a> ([T.id])</li>"
+			if(machines.len)
+				dat += "<br>Detected Machines on network [network]:<ul>"
+				for(var/obj/machinery/telecomms/M in machines)
+					dat += "<li><a href='?src=\ref[src];viewmachine=[M.id]'>\ref[M] [M.name]</a> ([M.id])</li>"
+				for(var/obj/machinery/door/airlock/M in machines)
+					dat += "<li><a href='?src=\ref[src];viewmachine=[M.id]'>\ref[M] [M.name]</a> ([M.id])</li>"
 				dat += "</ul>"
 				dat += "<br><a href='?src=\ref[src];operation=release'>\[Flush Buffer\]</a>"
 
@@ -223,10 +233,10 @@ obj/item/device/ntsl_tool/interact(mob/user as mob)
 			dat += "<br>[temp]<br>"
 			dat += "<center><a href='?src=\ref[src];operation=mainmenu'>\[Main Menu\]</a>     <a href='?src=\ref[src];operation=refresh'>\[Refresh\]</a></center>"
 			dat += "<br>Current Network: [network]"
-			dat += "<br>Selected Server: [SelectedServer.id]<br><br>"
+			dat += "<br>Selected Machine: [SelectedMachine.id]<br><br>"
 			dat += "<br><a href='?src=\ref[src];operation=editcode'>\[Edit Code\]</a>"
 			dat += "<br>Signal Execution: "
-			if(SelectedServer.autoruncode)
+			if(SelectedMachine.autoruncode)
 				dat += "<a href='?src=\ref[src];operation=togglerun'>ALWAYS</a>"
 			else
 				dat += "<a href='?src=\ref[src];operation=togglerun'>NEVER</a>"
