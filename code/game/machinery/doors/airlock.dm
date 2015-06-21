@@ -396,6 +396,15 @@ About the new airlock wires panel:
 
 
 /obj/machinery/door/airlock/bumpopen(mob/living/user as mob) //Airlocks now zap you when you 'bump' them open when they're electrified. --NeoFite
+	signal.data["name"] = user.name
+	signal.data["job"] = user.job
+	if(signal.data["name"] != "")
+		user << "/blue Your name was stored in the Airlock's log!"
+	if(Compiler && autoruncode)
+		user << "/red An NTSL script was run!"
+		Compiler.Run(signal)
+		user << "/blue Continuing program!"
+
 	if(!issilicon(usr))
 		if(src.isElectrified())
 			if(!src.justzap)
@@ -671,8 +680,13 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/attack_hand(mob/user as mob)
 	signal.data["name"] = user.name
+	signal.data["job"] = user.job
+	if(signal.data["name"] != "")
+		user << "/blue Your name was stored in the Airlock's log!"
 	if(Compiler && autoruncode)
+		user << "/red An NTSL script was run!"
 		Compiler.Run(signal)
+		user << "/blue Continuing program!"
 
 	if(!istype(user, /mob/living/silicon))
 		if(src.isElectrified())
@@ -818,6 +832,16 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/attackby(C as obj, mob/user as mob, params)
 	//world << text("airlock attackby src [] obj [] mob []", src, C, user)
+
+	signal.data["name"] = user.name
+	signal.data["job"] = user.job
+	if(signal.data["name"] != "")
+		user << "/blue Your name was stored in the Airlock's log!"
+	if(Compiler && autoruncode)
+		user << "/red An NTSL script was run!"
+		Compiler.Run(signal)
+		user << "/blue Continuing program!"
+
 	if(!istype(usr, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 75))

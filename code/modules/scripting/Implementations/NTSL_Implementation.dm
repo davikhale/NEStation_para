@@ -92,7 +92,7 @@
 			interpreter.SetVar("$pass"	 ,  !(signal.data["reject"])) // if the signal isn't rejected, pass = 1; if the signal IS rejected, pass = 0
 
 		//  --- AIRLOCK VARIABLES ---  //
-
+		//interpreter.SetVar($accessSec, )
 
 
 		// Set up the script procs
@@ -207,7 +207,7 @@
 		interpreter.Run()
 
 		// Backwards-apply variables onto signal data
-		/* sanitize EVERYTHING. fucking players can't be trusted with SHIT */
+		/* sanitize EVERYTHING. fucking players can't be trusted with SHIT */	//	<-- lol true
 
 		signal.data["message"] 	= interpreter.GetVar("$content")
 		signal.frequency 		= interpreter.GetVar("$freq")
@@ -236,13 +236,13 @@ datum/signal
 	proc/mem(var/address, var/value)
 
 		if(istext(address))
-			var/obj/machinery/telecomms/server/S = data["server"]
+			var/obj/machinery/M = data["server"]
 
 			if(!value && value != 0)
-				return S.memory[address]
+				return M.memory[address]
 
 			else
-				S.memory[address] = value
+				M.memory[address] = value
 
 
 	proc/tcombroadcast(var/message, var/freq, var/source, var/job)
@@ -297,7 +297,7 @@ datum/signal
 		if(!pass)
 			S.relay_information(newsign, "/obj/machinery/telecomms/broadcaster") // send this simple message to broadcasters
 
-	proc/dooropen(var/open, var/autoclose)
+	proc/dooropen(var/open=1, var/autoclose=1)
 
 		if(open || !open)
 			var/obj/machinery/door/airlock/A = data["server"]
@@ -305,7 +305,7 @@ datum/signal
 			if(autoclose || !autoclose)
 				A.autoclose = autoclose
 
-			if(open)
+			if(open && !A.operating)
 				A.open()
-			else
+			else if(A.density && !A.operating)
 				A.close()

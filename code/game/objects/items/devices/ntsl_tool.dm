@@ -89,7 +89,7 @@
 		add_fingerprint(usr)
 		usr.set_machine(src)
 		if(!src.allowed(usr))
-			usr << "\red ACCESS DENIED."
+			usr << "\red The [name] beeps and the screen flashes red."
 			return
 
 		if(href_list["viewmachine"])
@@ -224,10 +224,10 @@ obj/item/device/ntsl_tool/interact(mob/user as mob)
 				dat += "<br><a href='?src=\ref[src];operation=release'>\[Flush Buffer\]</a>"
 
 			else
-				dat += "<br>No servers detected. Scan for servers: <a href='?src=\ref[src];operation=scan'>\[Scan\]</a>"
+				dat += "<br>No machines detected. Scan for machines: <a href='?src=\ref[src];operation=scan'>\[Scan\]</a>"
 
 
-	  // --- Viewing Server ---
+	  // --- Viewing Machine ---
 
 		if(1)
 			dat += "<br>[temp]<br>"
@@ -249,7 +249,7 @@ obj/item/device/ntsl_tool/interact(mob/user as mob)
 			// add one for clearing all user code within a range
 
 	user << browse(dat, "window=ntsl_gun;size=575x400")
-	onclose(user, "server_control")
+	onclose(user, "machine_control")
 
 	temp = ""
 	return
