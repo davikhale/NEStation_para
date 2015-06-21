@@ -51,10 +51,8 @@
 	autoclose = 1
 	explosion_block = 1
 
-	var/datum/TCS_Compiler/Compiler		// Compiler that runs the code
-	var/datum/signal/signal				// NTSL Compiler was built around radio signals. This creates a "signal" from being opened
-	network = "NULL"					// Network of the door. Exactly like telecomms
-	id = ""								// A randomly assigned ID for naming purposes
+	nnetwork = "NULL"					// Network of the door. Exactly like telecomms
+	nid = ""								// A randomly assigned ID for naming purposes
 	autoruncode = 0
 
 	/*
@@ -83,75 +81,75 @@
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorcom.dmi'
 	assembly_type = /obj/structure/door_assembly/door_assembly_com
-	network = "alcommnd"
+	nnetwork = "alcommnd"
 
 /obj/machinery/door/airlock/security
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorsec.dmi'
 	assembly_type = /obj/structure/door_assembly/door_assembly_sec
-	network = "alsecrty"
+	nnetwork = "alsecrty"
 
 /obj/machinery/door/airlock/engineering
 	name = "Airlock"
 	icon = 'icons/obj/doors/Dooreng.dmi'
 	assembly_type = /obj/structure/door_assembly/door_assembly_eng
-	network = "alengine"
+	nnetwork = "alengine"
 
 /obj/machinery/door/airlock/medical
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doormed.dmi'
 	assembly_type = /obj/structure/door_assembly/door_assembly_med
-	network = "almedica"
+	nnetwork = "almedica"
 
 /obj/machinery/door/airlock/maintenance
 	name = "Maintenance Access"
 	icon = 'icons/obj/doors/Doormaint.dmi'
 	assembly_type = /obj/structure/door_assembly/door_assembly_mai
-	network = "almainte"
+	nnetwork = "almainte"
 
 /obj/machinery/door/airlock/external
 	name = "External Airlock"
 	icon = 'icons/obj/doors/Doorext.dmi'
 	assembly_type = /obj/structure/door_assembly/door_assembly_ext
-	network = "alextrnl"
+	nnetwork = "alextrnl"
 
 /obj/machinery/door/airlock/glass
 	name = "Glass Airlock"
 	icon = 'icons/obj/doors/Doorglass.dmi'
 	opacity = 0
 	glass = 1
-	network = "alcommon"
+	nnetwork = "alcommon"
 
 /obj/machinery/door/airlock/centcom
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorele.dmi'
 	opacity = 0
-	network = "alcntcom"
+	nnetwork = "alcntcom"
 
 /obj/machinery/door/airlock/vault
 	name = "Vault"
 	icon = 'icons/obj/doors/vault.dmi'
 	opacity = 1
-	network = "alhighsc"
+	nnetwork = "alhighsc"
 	assembly_type = /obj/structure/door_assembly/door_assembly_highsecurity //Until somebody makes better sprites.
 
 /obj/machinery/door/airlock/freezer
 	name = "Freezer Airlock"
 	icon = 'icons/obj/doors/Doorfreezer.dmi'
 	opacity = 1
-	network = "alcommon"
+	nnetwork = "alcommon"
 	assembly_type = /obj/structure/door_assembly/door_assembly_fre
 
 /obj/machinery/door/airlock/hatch
 	name = "Airtight Hatch"
 	icon = 'icons/obj/doors/Doorhatchele.dmi'
 	opacity = 1
-	network = "alcommon"
+	nnetwork = "alcommon"
 	assembly_type = /obj/structure/door_assembly/door_assembly_hatch
 
 /obj/machinery/door/airlock/hatch/gamma
 	name = "Gamma Level Hatch"
-	network = "alhighsc"
+	nnetwork = "alhighsc"
 	hackProof = 1
 	aiControlDisabled = 1
 	unacidable = 1
@@ -160,14 +158,14 @@
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doorhatchmaint2.dmi'
 	opacity = 1
-	network = "almainte"
+	nnetwork = "almainte"
 	assembly_type = /obj/structure/door_assembly/door_assembly_mhatch
 
 /obj/machinery/door/airlock/glass_command
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doorcomglass.dmi'
 	opacity = 0
-	network = "alcommnd"
+	nnetwork = "alcommnd"
 	assembly_type = /obj/structure/door_assembly/door_assembly_com
 	glass = 1
 
@@ -175,7 +173,7 @@
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doorengglass.dmi'
 	opacity = 0
-	network = "alengine"
+	nnetwork = "alengine"
 	assembly_type = /obj/structure/door_assembly/door_assembly_eng
 	glass = 1
 
@@ -183,7 +181,7 @@
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doorsecglass.dmi'
 	opacity = 0
-	network = "alsecrty"
+	nnetwork = "alsecrty"
 	assembly_type = /obj/structure/door_assembly/door_assembly_sec
 	glass = 1
 
@@ -191,33 +189,33 @@
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doormedglass.dmi'
 	opacity = 0
-	network = "almedica"
+	nnetwork = "almedica"
 	assembly_type = /obj/structure/door_assembly/door_assembly_med
 	glass = 1
 
 /obj/machinery/door/airlock/mining
 	name = "Mining Airlock"
 	icon = 'icons/obj/doors/Doormining.dmi'
-	network = "alsupply"
+	nnetwork = "alsupply"
 	assembly_type = /obj/structure/door_assembly/door_assembly_min
 
 /obj/machinery/door/airlock/atmos
 	name = "Atmospherics Airlock"
 	icon = 'icons/obj/doors/Dooratmo.dmi'
-	network = "alatmsph"
+	nnetwork = "alatmsph"
 	assembly_type = /obj/structure/door_assembly/door_assembly_atmo
 
 /obj/machinery/door/airlock/research
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorresearch.dmi'
-	network = "alresrch"
+	nnetwork = "alresrch"
 	assembly_type = /obj/structure/door_assembly/door_assembly_research
 
 /obj/machinery/door/airlock/glass_research
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doorresearchglass.dmi'
 	opacity = 0
-	network = "alresrch"
+	nnetwork = "alresrch"
 	assembly_type = /obj/structure/door_assembly/door_assembly_research
 	glass = 1
 	heat_proof = 1
@@ -226,7 +224,7 @@
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Doorminingglass.dmi'
 	opacity = 0
-	network = "alsupply"
+	nnetwork = "alsupply"
 	assembly_type = /obj/structure/door_assembly/door_assembly_min
 	glass = 1
 
@@ -234,7 +232,7 @@
 	name = "Maintenance Hatch"
 	icon = 'icons/obj/doors/Dooratmoglass.dmi'
 	opacity = 0
-	network = "alatmsph"
+	nnetwork = "alatmsph"
 	assembly_type = /obj/structure/door_assembly/door_assembly_atmo
 	glass = 1
 
@@ -242,26 +240,26 @@
 	name = "Gold Airlock"
 	icon = 'icons/obj/doors/Doorgold.dmi'
 	mineral = "gold"
-	network = "alcommon"
+	nnetwork = "alcommon"
 
 /obj/machinery/door/airlock/silver
 	name = "Silver Airlock"
 	icon = 'icons/obj/doors/Doorsilver.dmi'
 	mineral = "silver"
-	network = "alcommon"
+	nnetwork = "alcommon"
 
 /obj/machinery/door/airlock/diamond
 	name = "Diamond Airlock"
 	icon = 'icons/obj/doors/Doordiamond.dmi'
 	mineral = "diamond"
-	network = "alcommon"
+	nnetwork = "alcommon"
 
 /obj/machinery/door/airlock/uranium
 	name = "Uranium Airlock"
 	desc = "And they said I was crazy."
 	icon = 'icons/obj/doors/Dooruranium.dmi'
 	mineral = "uranium"
-	network = "alcommon"
+	nnetwork = "alcommon"
 	var/last_event = 0
 
 /obj/machinery/door/airlock/process()
@@ -292,7 +290,7 @@
 	desc = "No way this can end badly."
 	icon = 'icons/obj/doors/Doorplasma.dmi'
 	mineral = "plasma"
-	network = "alcommon"
+	nnetwork = "alcommon"
 
 /obj/machinery/door/airlock/plasma/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if(exposed_temperature > 300)
@@ -314,43 +312,43 @@
 	name = "Bananium Airlock"
 	icon = 'icons/obj/doors/Doorbananium.dmi'
 	mineral = "clown"
-	network = "algoofly"
+	nnetwork = "algoofly"
 
 /obj/machinery/door/airlock/mime
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorfreezer.dmi'
-	network = "algoofly"
+	nnetwork = "algoofly"
 
 /obj/machinery/door/airlock/sandstone
 	name = "Sandstone Airlock"
 	icon = 'icons/obj/doors/Doorsand.dmi'
 	mineral = "sandstone"
-	network = "alcommon"
+	nnetwork = "alcommon"
 
 /obj/machinery/door/airlock/science
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorsci.dmi'
-	network = "alresrch"
+	nnetwork = "alresrch"
 	assembly_type = /obj/structure/door_assembly/door_assembly_science
 
 /obj/machinery/door/airlock/glass_science
 	name = "Glass Airlocks"
 	icon = 'icons/obj/doors/Doorsciglass.dmi'
 	opacity = 0
-	network = "alresrch"
+	nnetwork = "alresrch"
 	assembly_type = /obj/structure/door_assembly/door_assembly_science
 	glass = 1
 
 /obj/machinery/door/airlock/highsecurity
 	name = "High Tech Security Airlock"
 	icon = 'icons/obj/doors/hightechsecurity.dmi'
-	network = "alhighsc"
+	nnetwork = "alhighsc"
 	assembly_type = /obj/structure/door_assembly/door_assembly_highsecurity
 	explosion_block = 2
 
 /obj/machinery/door/airlock/highsecurity/red
 	name = "Secure Armory Airlock"
-	network = "alhighsc"
+	nnetwork = "alhighsc"
 	hackProof = 1
 	aiControlDisabled = 1
 
@@ -604,7 +602,7 @@ About the new airlock wires panel:
 	commands[++commands.len] = list("name" = "Emergency Access",		"command"= "emergency",				"active" = !emergency,				"enabled" = "Disabled",	"disabled" = "Enabled", 	"danger" = 0, "act" = 0)
 
 	data["commands"] = commands
-	data["network"] = network
+	data["network"] = nnetwork
 
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
@@ -1034,7 +1032,7 @@ About the new airlock wires panel:
 	Compiler.Holder = src
 
 	for(var/i=0, i<8, i++)				// Generate a shitty ID tag. It doesn't really matter
-		id += num2text(rand(0,9))
+		nid += num2text(rand(0,9))
 
 	if(src.closeOtherId != null)
 		spawn (5)

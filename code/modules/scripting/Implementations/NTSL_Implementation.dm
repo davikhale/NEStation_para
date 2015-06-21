@@ -258,7 +258,7 @@ datum/signal
 		if((!message || message == "") && message != 0)
 			message = "*beep*"
 		if(!source)
-			source = "[html_encode(uppertext(S.id))]"
+			source = "[html_encode(uppertext(S.nid))]"
 			hradio = new // sets the hradio as a radio intercom
 		if(!freq)
 			freq = 1459
