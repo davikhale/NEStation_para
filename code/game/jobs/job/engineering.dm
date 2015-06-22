@@ -10,12 +10,12 @@
 	req_admin_notify = 1
 	access = list(access_engine, access_engine_equip, access_tech_storage, access_maint_tunnels,
 			            access_teleporter, access_external_airlocks, access_atmospherics, access_emergency_storage, access_eva,
-			            access_heads, access_construction, access_sec_doors, access_ceexclusive,
-			            access_ce, access_RC_announce, access_keycard_auth, access_tcomsat, access_minisat, access_mechanic)
+			            access_heads, access_construction, access_sec_doors, access_ce, access_RC_announce, access_keycard_auth,
+			            access_tcomsat, access_minisat, access_mechanic)
 	minimal_access = list(access_engine, access_engine_equip, access_tech_storage, access_maint_tunnels,
 			            access_teleporter, access_external_airlocks, access_atmospherics, access_emergency_storage, access_eva,
-			            access_heads, access_construction, access_sec_doors, access_ceexclusive,
-			            access_ce, access_RC_announce, access_keycard_auth, access_tcomsat, access_minisat, access_mechanic)
+			            access_heads, access_construction, access_sec_doors, access_ce, access_RC_announce, access_keycard_auth,
+			            access_tcomsat, access_minisat, access_mechanic)
 	minimal_player_age = 21
 
 

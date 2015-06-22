@@ -9,30 +9,8 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	selection_color = "#ccccff"
 	idtype = /obj/item/weapon/card/id/gold
 	req_admin_notify = 1
-	access = list(access_security, access_brig, access_armory, access_forensics_lockers, access_medical,
-					access_morgue, access_tox, access_tox_storage, access_genetics, access_engine, access_engine_equip,
-					access_maint_tunnels, access_external_airlocks, access_change_ids, access_teleporter,
-					access_eva, access_heads, access_captain, access_all_personal_lockers, access_chapel_office, access_tech_storage,
-					access_atmospherics, access_bar, access_janitor, access_crematorium, access_kitchen, access_robotics, access_rd,
-					access_cargo, access_construction, access_chemistry, access_cargo_bot, access_hydroponics, access_manufacturing,
-					access_library, access_lawyer, access_virology, access_cmo, access_qm, access_court, access_clown,
-					access_mime, access_surgery, access_theatre, access_research, access_mining, access_mining_office,
-					access_mailsorting, access_mint, access_mint_vault, access_heads_vault, access_mining_station, access_xenobiology,
-					access_ce, access_hop, access_hos, access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway,
-					access_sec_doors, access_psychiatrist, access_xenoarch, access_paramedic, access_blueshield, access_salvage_captain,
-					access_mechanic, access_pilot, access_ntrep, access_magistrate, access_minisat, access_capexclusive) //I had to add everything because the captain no longer has all access --MadSnailDisease
-	minimal_access = list(access_security, access_brig, access_armory, access_forensics_lockers, access_medical,
-					access_morgue, access_tox, access_tox_storage, access_genetics, access_engine, access_engine_equip,
-					access_maint_tunnels, access_external_airlocks, access_change_ids, access_teleporter,
-					access_eva, access_heads, access_captain, access_all_personal_lockers, access_chapel_office, access_tech_storage,
-					access_atmospherics, access_bar, access_janitor, access_crematorium, access_kitchen, access_robotics, access_rd,
-					access_cargo, access_construction, access_chemistry, access_cargo_bot, access_hydroponics, access_manufacturing,
-					access_library, access_lawyer, access_virology, access_cmo, access_qm, access_court, access_clown,
-					access_mime, access_surgery, access_theatre, access_research, access_mining, access_mining_office,
-					access_mailsorting, access_mint, access_mint_vault, access_heads_vault, access_mining_station, access_xenobiology,
-					access_ce, access_hop, access_hos, access_RC_announce, access_keycard_auth, access_tcomsat, access_gateway,
-					access_sec_doors, access_psychiatrist, access_xenoarch, access_paramedic, access_blueshield, access_salvage_captain,
-					access_mechanic, access_pilot, access_ntrep, access_magistrate, access_minisat, access_capexclusive)
+	access = list() //I had to add everything because the captain no longer has all access --MadSnailDisease
+	minimal_access = list()
 	minimal_player_age = 30
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -174,11 +152,9 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	req_admin_notify = 1
 	minimal_player_age = 21
 	access = list(access_security, access_sec_doors, access_brig, access_court, access_forensics_lockers,
-			            access_medical, access_engine, access_change_ids, access_eva, access_heads,
-			            access_all_personal_lockers, access_maint_tunnels, access_bar, access_janitor, access_construction, access_morgue,
-			            access_crematorium, access_kitchen, access_cargo, access_cargo_bot, access_mailsorting, access_qm, access_hydroponics, access_lawyer,
-			            access_theatre, access_chapel_office, access_library, access_research, access_mining, access_heads_vault, access_mining_station,
-			            access_clown, access_mime, access_hop, access_RC_announce, access_keycard_auth, access_gateway, access_weapons, access_blueshield)
+			            access_medical, access_construction, access_engine, access_maint_tunnels, access_morgue,
+			            access_research, access_RC_announce, access_keycard_auth, access_heads, access_weapons,
+			            access_blueshield)
 	minimal_access = list(access_forensics_lockers, access_sec_doors, access_medical, access_construction, access_engine, access_maint_tunnels, access_research,
 			            access_RC_announce, access_keycard_auth, access_heads, access_blueshield, access_weapons)
 
@@ -220,12 +196,7 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	idtype = /obj/item/weapon/card/id
 	req_admin_notify = 1
 	minimal_player_age = 21
-	access = list(access_security, access_sec_doors, access_brig, access_court, access_forensics_lockers,
-			            access_medical, access_engine, access_change_ids, access_eva, access_heads,
-			            access_all_personal_lockers, access_maint_tunnels, access_bar, access_janitor, access_construction, access_morgue,
-			            access_crematorium, access_kitchen, access_cargo, access_cargo_bot, access_mailsorting, access_qm, access_hydroponics, access_lawyer,
-			            access_theatre, access_chapel_office, access_library, access_research, access_mining, access_heads_vault, access_mining_station,
-			            access_clown, access_mime, access_hop, access_RC_announce, access_keycard_auth, access_gateway, access_magistrate)
+	access = list(access_security, access_sec_doors, access_brig, access_court, access_maint_tunnels, access_lawyer, access_magistrate)
 	minimal_access = list(access_security, access_sec_doors, access_brig, access_court, access_maint_tunnels, access_lawyer, access_magistrate)
 
 	equip(var/mob/living/carbon/human/H)
