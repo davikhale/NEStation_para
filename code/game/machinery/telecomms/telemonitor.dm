@@ -39,7 +39,7 @@
 				if(machinelist.len)
 					dat += "<br>Detected Network Entities:<ul>"
 					for(var/obj/machinery/telecomms/T in machinelist)
-						dat += "<li><a href='?src=\ref[src];viewmachine=[T.id]'>\ref[T] [T.name]</a> ([T.id])</li>"
+						dat += "<li><a href='?src=\ref[src];viewmachine=[T.nid]'>\ref[T] [T.name]</a> ([T.nid])</li>"
 					dat += "</ul>"
 					dat += "<br><a href='?src=\ref[src];operation=release'>\[Flush Buffer\]</a>"
 				else
@@ -52,11 +52,11 @@
 				dat += "<br>[temp]<br>"
 				dat += "<center><a href='?src=\ref[src];operation=mainmenu'>\[Main Menu\]</a></center>"
 				dat += "<br>Current Network: [network]<br>"
-				dat += "Selected Network Entity: [SelectedMachine.name] ([SelectedMachine.id])<br>"
+				dat += "Selected Network Entity: [SelectedMachine.name] ([SelectedMachine.nid])<br>"
 				dat += "Linked Entities: <ol>"
 				for(var/obj/machinery/telecomms/T in SelectedMachine.links)
 					if(!T.hide)
-						dat += "<li><a href='?src=\ref[src];viewmachine=[T.id]'>\ref[T.id] [T.name]</a> ([T.id])</li>"
+						dat += "<li><a href='?src=\ref[src];viewmachine=[T.nid]'>\ref[T.nid] [T.name]</a> ([T.nid])</li>"
 				dat += "</ol>"
 
 
@@ -79,7 +79,7 @@
 		if(href_list["viewmachine"])
 			screen = 1
 			for(var/obj/machinery/telecomms/T in machinelist)
-				if(T.id == href_list["viewmachine"])
+				if(T.nid == href_list["viewmachine"])
 					SelectedMachine = T
 					break
 
@@ -99,7 +99,7 @@
 
 					else
 						for(var/obj/machinery/telecomms/T in range(25, src))
-							if(T.network == network)
+							if(T.nnetwork == nnetwork)
 								machinelist.Add(T)
 
 						if(!machinelist.len)

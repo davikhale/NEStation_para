@@ -23,7 +23,7 @@
 	var/list/viewingcode = list()
 	var/obj/machinery/SelectedMachine
 
-	var/network = "NULL"		// the network to probe
+	var/nnetwork = "NULL"		// the network to probe
 	var/temp = ""				// temporary feedback messages
 	var/range = 1				// range that the gun has (for admunbus/reverse mingebagging)
 
@@ -89,17 +89,17 @@
 		add_fingerprint(usr)
 		usr.set_machine(src)
 		if(!src.allowed(usr))
-			usr << "\red ACCESS DENIED."
+			usr << "\red The [name] beeps and the screen flashes red."
 			return
 
 		if(href_list["viewmachine"])
 			screen = 1
 			for(var/obj/machinery/telecomms/M in machines)
-				if(M.id == href_list["viewmachine"])
+				if(M.nid == href_list["viewmachine"])
 					SelectedMachine = M
 					break
 			for(var/obj/machinery/door/airlock/M in machines)
-				if(M.id == href_list["viewmachine"])
+				if(M.nid == href_list["viewmachine"])
 					SelectedMachine = M
 					break
 
@@ -119,15 +119,15 @@
 
 					else
 						for(var/obj/machinery/telecomms/server/M in range(range, usr))
-							if(M.network == network)
+							if(M.nnetwork == nnetwork)
 								machines.Add(M)
 
 						for(var/obj/machinery/door/airlock/M in range(range, usr))
-							if(M.network == network)
+							if(M.nnetwork == nnetwork)
 								machines.Add(M)
 
 						if(!machines.len)
-							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE MACHINES IN \[[network]\] -</font color>"
+							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE MACHINES IN \[[nnetwork]\] -</font color>"
 						else
 							temp = "<font color = #336699>- [machines.len] MACHINES PROBED & BUFFERED -</font color>"
 
@@ -162,7 +162,7 @@
 
 		if(href_list["network"])
 
-			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", network) as null|text
+			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", nnetwork) as null|text
 
 			if(newnet)
 				if(length(newnet) > 15)
@@ -170,10 +170,10 @@
 
 				else
 
-					network = newnet
+					nnetwork = newnet
 					screen = 0
 					machines = list()
-					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[network]\] -</font color>"
+					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[nnetwork]\] -</font color>"
 
 		if(href_list["range"])
 			var/newrange = input(usr, "Input tile range of NTSL Gun", "Range", range) as null|num
@@ -213,27 +213,27 @@ obj/item/device/ntsl_tool/interact(mob/user as mob)
 
 		if(0)
 			dat += "<br>[temp]<br>"
-			dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[network]</a><br>"
+			dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[nnetwork]</a><br>"
 			if(machines.len)
-				dat += "<br>Detected Machines on network [network]:<ul>"
+				dat += "<br>Detected Machines on network [nnetwork]:<ul>"
 				for(var/obj/machinery/telecomms/M in machines)
-					dat += "<li><a href='?src=\ref[src];viewmachine=[M.id]'>\ref[M] [M.name]</a> ([M.id])</li>"
+					dat += "<li><a href='?src=\ref[src];viewmachine=[M.nid]'>\ref[M] [M.name]</a> ([M.nid])</li>"
 				for(var/obj/machinery/door/airlock/M in machines)
-					dat += "<li><a href='?src=\ref[src];viewmachine=[M.id]'>\ref[M] [M.name]</a> ([M.id])</li>"
+					dat += "<li><a href='?src=\ref[src];viewmachine=[M.nid]'>\ref[M] [M.name]</a> ([M.nid])</li>"
 				dat += "</ul>"
 				dat += "<br><a href='?src=\ref[src];operation=release'>\[Flush Buffer\]</a>"
 
 			else
-				dat += "<br>No servers detected. Scan for servers: <a href='?src=\ref[src];operation=scan'>\[Scan\]</a>"
+				dat += "<br>No machines detected. Scan for machines: <a href='?src=\ref[src];operation=scan'>\[Scan\]</a>"
 
 
-	  // --- Viewing Server ---
+	  // --- Viewing Machine ---
 
 		if(1)
 			dat += "<br>[temp]<br>"
 			dat += "<center><a href='?src=\ref[src];operation=mainmenu'>\[Main Menu\]</a>     <a href='?src=\ref[src];operation=refresh'>\[Refresh\]</a></center>"
-			dat += "<br>Current Network: [network]"
-			dat += "<br>Selected Machine: [SelectedMachine.id]<br><br>"
+			dat += "<br>Current Network: [nnetwork]"
+			dat += "<br>Selected Machine: [SelectedMachine.nid]<br><br>"
 			dat += "<br><a href='?src=\ref[src];operation=editcode'>\[Edit Code\]</a>"
 			dat += "<br>Signal Execution: "
 			if(SelectedMachine.autoruncode)
@@ -249,7 +249,7 @@ obj/item/device/ntsl_tool/interact(mob/user as mob)
 			// add one for clearing all user code within a range
 
 	user << browse(dat, "window=ntsl_gun;size=575x400")
-	onclose(user, "server_control")
+	onclose(user, "machine_control")
 
 	temp = ""
 	return

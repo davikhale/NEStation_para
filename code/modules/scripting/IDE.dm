@@ -18,16 +18,16 @@ client/verb/tcssave()
 				src << output(null, "tcserror")
 				src << output("<font color = red>Failed to save: Unable to locate server machine. (Back up your code before exiting the window!)</font color>", "tcserror")
 		else if(istype(mob.machine, /obj/item/device/ntsl_tool) && mob.machine in view(1, mob))
-			var/obj/item/device/ntsl_tool/Machine = mob.machine
-			if(Machine.editingcode != mob)
+			var/obj/item/device/ntsl_tool/Tool = mob.machine
+			if(Tool.editingcode != mob)
 				return
 
-			if(Machine.SelectedMachine)
-				var/obj/machinery/machine = Machine.SelectedMachine
+			if(Tool.SelectedMachine)
+				var/obj/machinery/machine = Tool.SelectedMachine
 				var/tcscode=winget(src, "tcscode", "text")
 				var/msg="[mob.name] is adding script to server [machine]: [tcscode]"
 				diary << msg
-				message_admins("[mob.name] has uploaded a NTSL script to [Machine.SelectedMachine] ([mob.x],[mob.y],[mob.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[mob.x];Y=[mob.y];Z=[mob.z]'>JMP</a>)",0,1)
+				message_admins("[mob.name] has uploaded a NTSL script to [Tool.SelectedMachine] ([mob.x],[mob.y],[mob.z] - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[mob.x];Y=[mob.y];Z=[mob.z]'>JMP</a>)",0,1)
 				machine.setcode( tcscode ) // this actually saves the code from input to the server
 				src << output(null, "tcserror") // clear the errors
 			else
@@ -87,12 +87,12 @@ client/verb/tcscompile()
 				src << output(null, "tcserror")
 				src << output("<font color = red>Failed to compile: Unable to locate server machine. (Back up your code before exiting the window!)</font color>", "tcserror")
 		else if(istype(mob.machine, /obj/item/device/ntsl_tool) && mob.machine in view(1, mob))
-			var/obj/item/device.ntsl_tool/Machine = mob.machine
-			if(Machine.editingcode != mob)
+			var/obj/item/device.ntsl_tool/Tool = mob.machine
+			if(Tool.editingcode != mob)
 				return
 
-			if(Machine.SelectedMachine)
-				var/obj/machinery/machine = Machine.SelectedMachine
+			if(Tool.SelectedMachine)
+				var/obj/machinery/machine = Tool.SelectedMachine
 				machine.setcode( winget(src, "tcscode", "text") ) // save code first
 				var/list/compileerrors = machine.compile() // then compile the code!
 
@@ -106,7 +106,7 @@ client/verb/tcscompile()
 					src << output("([compileerrors.len] errors)", "tcserror")
 
 					// Output compile errors to all other people viewing the code too
-					for(var/mob/M in Machine.viewingcode)
+					for(var/mob/M in Tool.viewingcode)
 						if(M.client)
 							M << output(null, "tcserror")
 							M << output("<b>Compile Errors</b>", "tcserror")
@@ -119,7 +119,7 @@ client/verb/tcscompile()
 					src << output("<font color = blue>TCS compilation successful!</font color>", "tcserror")
 					src << output("(0 errors)", "tcserror")
 
-					for(var/mob/M in Machine.viewingcode)
+					for(var/mob/M in Tool.viewingcode)
 						if(M.client)
 							M << output("<font color = blue>TCS compilation successful!</font color>", "tcserror")
 							M << output("(0 errors)", "tcserror")
@@ -193,12 +193,12 @@ client/verb/tcsrun()
 				src << output(null, "tcserror")
 				src << output("<font color = red>Failed to run: Unable to locate server machine. (Back up your code before exiting the window!)</font color>", "tcserror")
 		else if(istype(mob.machine, /obj/item/device/ntsl_tool) && mob.machine in view(1, mob))
-			var/obj/item/device/ntsl_tool/Machine = mob.machine
-			if(Machine.editingcode != mob)
+			var/obj/item/device/ntsl_tool/Tool = mob.machine
+			if(Tool.editingcode != mob)
 				return
 
-			if(Machine.SelectedMachine)
-				var/obj/machinery/machine = Machine.SelectedMachine
+			if(Tool.SelectedMachine)
+				var/obj/machinery/machine = Tool.SelectedMachine
 				machine.setcode( winget(src, "tcscode", "text") ) // save code first
 				var/list/compileerrors = machine.compile() // then compile the code!
 
@@ -212,7 +212,7 @@ client/verb/tcsrun()
 					src << output("([compileerrors.len] errors)", "tcserror")
 
 					// Output compile errors to all other people viewing the code too
-					for(var/mob/M in Machine.viewingcode)
+					for(var/mob/M in Tool.viewingcode)
 						if(M.client)
 							M << output(null, "tcserror")
 							M << output("<b>Compile Errors</b>", "tcserror")
@@ -225,7 +225,7 @@ client/verb/tcsrun()
 					src << output("<font color = blue>TCS compilation successful! Code executed.</font color>", "tcserror")
 					src << output("(0 errors)", "tcserror")
 
-					for(var/mob/M in Machine.viewingcode)
+					for(var/mob/M in Tool.viewingcode)
 						if(M.client)
 							M << output("<font color = blue>TCS compilation successful!</font color>", "tcserror")
 							M << output("(0 errors)", "tcserror")
@@ -267,13 +267,13 @@ client/verb/exittcs()
 				if(mob in Machine.viewingcode)
 					Machine.viewingcode.Remove(mob)
 		else if(istype(mob.machine, /obj/item/device/ntsl_tool) && mob.machine in view(1, mob))
-			var/obj/item/device/ntsl_tool/Machine = mob.machine
-			if(Machine.editingcode == mob)
-				Machine.storedcode = "[winget(mob, "tcscode", "text")]"
-				Machine.editingcode = null
+			var/obj/item/device/ntsl_tool/Tool = mob.machine
+			if(Tool.editingcode == mob)
+				Tool.storedcode = "[winget(mob, "tcscode", "text")]"
+				Tool.editingcode = null
 			else
-				if(mob in Machine.viewingcode)
-					Machine.viewingcode.Remove(mob)
+				if(mob in Tool.viewingcode)
+					Tool.viewingcode.Remove(mob)
 
 client/verb/tcsrevert()
 	set hidden = 1
@@ -297,12 +297,12 @@ client/verb/tcsrevert()
 				src << output(null, "tcserror")
 				src << output("<font color = red>Failed to revert: Unable to locate server machine.</font color>", "tcserror")
 		else if(istype(mob.machine, /obj/item/device/ntsl_tool) && mob.machine in view(1, mob))
-			var/obj/item/device/ntsl_tool/Machine = mob.machine
-			if(Machine.editingcode != mob)
+			var/obj/item/device/ntsl_tool/Tool = mob.machine
+			if(Tool.editingcode != mob)
 				return
 
-			if(Machine.SelectedMachine)
-				var/obj/machinery/machine = Machine.SelectedMachine
+			if(Tool.SelectedMachine)
+				var/obj/machinery/machine = Tool.SelectedMachine
 
 				// Replace quotation marks with quotation macros for proper winset() compatibility
 				var/showcode = replacetext(machine.rawcode, "\\\"", "\\\\\"")
@@ -343,17 +343,17 @@ client/verb/tcsclearmem()
 				src << output(null, "tcserror")
 				src << output("<font color = red>Failed to clear memory: Unable to locate server machine.</font color>", "tcserror")
 		else if(istype(mob.machine, /obj/item/device/ntsl_tool) && mob.machine in view(1, mob))
-			var/obj/item/device/ntsl_tool/Machine = mob.machine
-			if(Machine.editingcode != mob)
+			var/obj/item/device/ntsl_tool/Tool = mob.machine
+			if(Tool.editingcode != mob)
 				return
 
-			if(Machine.SelectedMachine)
-				var/obj/machinery/machine = Machine.SelectedMachine
+			if(Tool.SelectedMachine)
+				var/obj/machinery/machine = Tool.SelectedMachine
 				machine.memory = list() // clear the memory
 				// Show results
 				src << output(null, "tcserror")
 				src << output("<font color = blue>Server memory cleared!</font color>", "tcserror")
-				for(var/mob/M in Machine.viewingcode)
+				for(var/mob/M in Tool.viewingcode)
 					if(M.client)
 						M << output("<font color = blue>Server memory cleared!</font color>", "tcserror")
 			else

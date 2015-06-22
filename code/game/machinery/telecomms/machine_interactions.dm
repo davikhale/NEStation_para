@@ -150,7 +150,7 @@
 			i++
 			if(T.hide && !src.hide)
 				continue
-			dat += "<li>\ref[T] [T.name] ([T.id])  <a href='?src=\ref[src];unlink=[i]'>\[X\]</a></li>"
+			dat += "<li>\ref[T] [T.name] ([T.nid])  <a href='?src=\ref[src];unlink=[i]'>\[X\]</a></li>"
 
 		// AUTOFIXED BY fix_string_idiocy.py
 		// C:\Users\Rob\Documents\Projects\vgstation13\code\game\machinery\telecomms\machine_interactions.dm:140: dat += "</ol>"
@@ -281,7 +281,7 @@
 
 	if(href_list["change_freq"])
 
-		var/newfreq = input(usr, "Specify a new frequency for new signals to change to. Enter null to turn off frequency changing. Decimals assigned automatically.", src, network) as null|num
+		var/newfreq = input(usr, "Specify a new frequency for new signals to change to. Enter null to turn off frequency changing. Decimals assigned automatically.", src, nnetwork) as null|num
 		if(canAccess(usr))
 			if(newfreq)
 				if(findtext(num2text(newfreq), "."))
@@ -321,13 +321,13 @@
 			*/
 
 			if("id")
-				var/newid = copytext(reject_bad_text(input(usr, "Specify the new ID for this machine", src, id) as null|text),1,MAX_MESSAGE_LEN)
+				var/newid = copytext(reject_bad_text(input(usr, "Specify the new ID for this machine", src, nid) as null|text),1,MAX_MESSAGE_LEN)
 				if(newid && canAccess(usr))
-					id = newid
-					temp = "<font color = #666633>-% New ID assigned: \"[id]\" %-</font color>"
+					nid = newid
+					temp = "<font color = #666633>-% New ID assigned: \"[nid]\" %-</font color>"
 
 			if("network")
-				var/newnet = input(usr, "Specify the new network for this machine. This will break all current links.", src, network) as null|text
+				var/newnet = input(usr, "Specify the new network for this machine. This will break all current links.", src, nnetwork) as null|text
 				if(newnet && canAccess(usr))
 
 					if(length(newnet) > 15)
@@ -337,13 +337,13 @@
 						for(var/obj/machinery/telecomms/T in links)
 							T.links.Remove(src)
 
-						network = newnet
+						nnetwork = newnet
 						links = list()
-						temp = "<font color = #666633>-% New network tag assigned: \"[network]\" %-</font color>"
+						temp = "<font color = #666633>-% New network tag assigned: \"[nnetwork]\" %-</font color>"
 
 
 			if("freq")
-				var/newfreq = input(usr, "Specify a new frequency to filter (GHz). Decimals assigned automatically.", src, network) as null|num
+				var/newfreq = input(usr, "Specify a new frequency to filter (GHz). Decimals assigned automatically.", src, nnetwork) as null|num
 				if(newfreq && canAccess(usr))
 					if(findtext(num2text(newfreq), "."))
 						newfreq *= 10 // shift the decimal one place
