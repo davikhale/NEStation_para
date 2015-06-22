@@ -9,7 +9,7 @@
 	var/list/viewingcode = list()
 	var/obj/machinery/telecomms/server/SelectedServer
 
-	var/network = "NULL"		// the network to probe
+	nnetwork = "NULL"		// the network to probe
 	var/temp = ""				// temporary feedback messages
 
 	var/storedcode = ""			// code stored
@@ -82,7 +82,7 @@
 
 			if(0)
 				dat += "<br>[temp]<br>"
-				dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[network]</a><br>"
+				dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[nnetwork]</a><br>"
 				if(servers.len)
 					dat += "<br>Detected Telecommunication Servers:<ul>"
 					for(var/obj/machinery/telecomms/T in servers)
@@ -99,7 +99,7 @@
 			if(1)
 				dat += "<br>[temp]<br>"
 				dat += "<center><a href='?src=\ref[src];operation=mainmenu'>\[Main Menu\]</a>     <a href='?src=\ref[src];operation=refresh'>\[Refresh\]</a></center>"
-				dat += "<br>Current Network: [network]"
+				dat += "<br>Current Network: [nnetwork]"
 				dat += "<br>Selected Server: [SelectedServer.nid]<br><br>"
 				dat += "<br><a href='?src=\ref[src];operation=editcode'>\[Edit Code\]</a>"
 				dat += "<br>Signal Execution: "
@@ -154,7 +154,7 @@
 								servers.Add(T)
 
 						if(!servers.len)
-							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE SERVERS IN \[[network]\] -</font color>"
+							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE SERVERS IN \[[nnetwork]\] -</font color>"
 						else
 							temp = "<font color = #336699>- [servers.len] SERVERS PROBED & BUFFERED -</font color>"
 
@@ -189,7 +189,7 @@
 
 		if(href_list["network"])
 
-			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", network) as null|text
+			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", nnetwork) as null|text
 
 			if(newnet)
 				if(length(newnet) > 15)
@@ -197,10 +197,10 @@
 
 				else
 
-					network = newnet
+					nnetwork = newnet
 					screen = 0
 					servers = list()
-					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[network]\] -</font color>"
+					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[nnetwork]\] -</font color>"
 
 		updateUsrDialog()
 		return

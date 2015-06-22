@@ -514,7 +514,6 @@ var/global/list/obj/machinery/telecomms/telecomms_list = list()
 	heatgen = 50
 	circuitboard = "/obj/item/weapon/circuitboard/telecomms/server"
 	var/list/log_entries = list()
-	var/list/stored_names = list()
 	var/list/TrafficActions = list()
 	var/logs = 0 // number of logs
 	var/totaltraffic = 0 // gigabytes (if > 1024, divide by 1024 -> terrabytes)

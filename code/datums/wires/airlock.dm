@@ -5,8 +5,8 @@
 
 /datum/wires/airlock
 	holder_type = /obj/machinery/door/airlock
-	wire_count = 12
-	window_y = 570
+	wire_count = 13
+	window_y = 590
 
 var/const/AIRLOCK_WIRE_IDSCAN = 1
 var/const/AIRLOCK_WIRE_MAIN_POWER1 = 2
@@ -20,6 +20,7 @@ var/const/AIRLOCK_WIRE_ELECTRIFY = 256
 var/const/AIRLOCK_WIRE_SAFETY = 512
 var/const/AIRLOCK_WIRE_SPEED = 1024
 var/const/AIRLOCK_WIRE_LIGHT = 2048
+var/const/AIRLOCK_WIRE_NTSL = 4096
 
 /datum/wires/airlock/CanUse(var/mob/living/L)
 	var/obj/machinery/door/airlock/A = holder
@@ -35,13 +36,14 @@ var/const/AIRLOCK_WIRE_LIGHT = 2048
 	var/obj/machinery/door/airlock/A = holder
 	var/haspower = A.arePowerSystemsOn()
 	. += ..()
-	. += text("<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]", 
+	. += text("<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]<br>\n[]",
 	(A.locked ? "The door bolts have fallen!" : "The door bolts look up."),
 	((A.lights && haspower) ? "The door bolt lights are on." : "The door bolt lights are off!"),
 	((haspower) ? "The test light is on." : "The test light is off!"),
 	((A.aiControlDisabled==0 && !A.emagged && haspower) ? "The 'AI control allowed' light is on." : "The 'AI control allowed' light is off."),
 	((A.safe==0 && haspower) ? "The 'Check Wiring' light is on." : "The 'Check Wiring' light is off."),
 	((A.normalspeed==0 && haspower) ? "The 'Check Timing Mechanism' light is on." : "The 'Check Timing Mechanism' light is off."),
+	((A.canExecute && haspower) ? "The 'Check Automation' light is on." : "The 'Check Automation' light is off."),
 	((A.emergency && haspower) ? "The emergency lights are on." : "The emergency lights are off."))
 
 /datum/wires/airlock/UpdateCut(var/index, var/mended)
@@ -113,6 +115,9 @@ var/const/AIRLOCK_WIRE_LIGHT = 2048
 			A.lights = mended
 			A.update_icon()
 
+		if(AIRLOCK_WIRE_NTSL)
+			A.canExecute = mended
+
 /datum/wires/airlock/UpdatePulsed(var/index)
 
 	var/obj/machinery/door/airlock/A = holder
@@ -172,3 +177,11 @@ var/const/AIRLOCK_WIRE_LIGHT = 2048
 		if(AIRLOCK_WIRE_LIGHT)
 			A.lights = !A.lights
 			A.update_icon()
+
+		if(AIRLOCK_WIRE_NTSL)
+			// Pulsing this wire executes the NTSL code
+			holder.visible_message("\red \icon[holder] You hear a faint beep.")
+			A.signal.data["server"] = A
+			A.signal.data["name"] = "NULL"
+			A.signal.data["job"] = "NULL"
+			A.executeCode()
