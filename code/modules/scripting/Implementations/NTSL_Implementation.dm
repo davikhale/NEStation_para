@@ -92,7 +92,7 @@
 			interpreter.SetVar("$pass"	 ,  !(signal.data["reject"])) // if the signal isn't rejected, pass = 1; if the signal IS rejected, pass = 0
 
 		//  --- AIRLOCK VARIABLES ---  //
-		//interpreter.SetVar($accessSec, )
+
 
 
 		// Set up the script procs
@@ -108,14 +108,81 @@
 		*/
 		interpreter.SetProc("broadcast", "tcombroadcast", signal, list("message", "freq", "source", "job"))
 
-		/*
-			-> Opens or closes the door. Wow.
-					@format: open(open, autoclose)
 
-					@param open:		BOOLEAN IS DOOR OPEN OR CLOSE? WHAT
-					@param autoclose:	BOOLEAN DOES DOOR AUTOMATICALLY CLOSE? WHAAAAAT
+
+		/*
+			-> Opens the door. Wow.
 		*/
-		interpreter.SetProc("open", "dooropen", signal, list("open", "autoclose"))
+		interpreter.SetProc("open", "dooropen", signal, list())
+
+		/*
+			-> Closes the door. What.
+		*/
+		interpreter.SetProc("close", "doorclose", signal, list())
+
+		//	-> Returns 1 if door is open, 0 if door is not [EXAMPLE] if(isOpen()){
+		interpreter.SetProc("isOpen", "doorisopen", signal, list())
+
+		/*
+			-> Sets whether the door automatically closes
+					@format: autoclose(autoclose)
+
+					@param: autoclose: boolean autocloses or not
+		*/
+		interpreter.SetProc("autoclose", "doorautoclose", signal, list("autoclose"))
+
+		/*
+			-> Sets door bolts
+					@format: bolt(bolted)
+
+					@param: bolted: boolean bolted or not [EXAMPLE] if(isBolted()){
+		*/
+		interpreter.SetProc("bolt", "doorbolt", signal, list("bolted"))
+
+		//	-> Returns 1 if door is bolted, 0 if door is not
+		interpreter.SetProc("isBolted", "doorisbolted", signal, list())
+
+		/*
+			-> Sets door bolt lights
+					@format: lights(lights)
+
+					@param: lights: boolean on or off
+		*/
+		interpreter.SetProc("lights", "doorlights", signal, list("lights"))
+
+		/*
+			-> Sets door electrified
+					@format: shock(shocked)
+
+					@param: shocked: boolean is shocked?
+		*/
+		interpreter.SetProc("shock", "doorshock", signal, list("shocked"))
+
+		/*
+			-> Sets door speed
+					@format: speed(normalspeed)
+
+					@param: normalspeed: boolean does door close at normal speed?
+		*/
+		interpreter.SetProc("speed", "doorspeed", signal, list("normalspeed"))
+
+		/*
+			-> Sets door safe
+					@format: safe(safe)
+
+					@param: safe: boolean is door safety engaged?
+		*/
+		interpreter.SetProc("safe", "doorsafety", signal, list("safe"))
+
+		/*
+			-> Sets door AI control
+					@format: aicontrol(aicontrol)
+
+					@param: aicontrol: boolean does AI have control?
+		*/
+		interpreter.SetProc("aicontrol", "dooraicontrol", signal, list("aicontrol"))
+
+
 
 		/*
 			-> Store a value permanently to the machine (not the actual game hosting machine, the ingame machine)
@@ -213,8 +280,8 @@
 		signal.frequency 		= interpreter.GetVar("$freq")
 
 		var/setname = ""
-		var/obj/machinery/telecomms/server/S = signal.data["server"]
-		if(interpreter.GetVar("$source") in S.stored_names)
+		var/obj/machinery/M = signal.data["server"]
+		if(interpreter.GetVar("$source") in M.stored_names)
 			setname = interpreter.GetVar("$source")
 		else
 			setname = "<i>[interpreter.GetVar("$source")]</i>"
@@ -231,7 +298,9 @@
 
 /*  -- Actual language proc code --  */
 
-datum/signal
+/datum/signal
+
+	// --- SHARED PROCS --- //
 
 	proc/mem(var/address, var/value)
 
@@ -244,6 +313,9 @@ datum/signal
 			else
 				M.memory[address] = value
 
+
+
+	// --- TELECOMMS PROCS ---	//
 
 	proc/tcombroadcast(var/message, var/freq, var/source, var/job)
 
@@ -297,15 +369,92 @@ datum/signal
 		if(!pass)
 			S.relay_information(newsign, "/obj/machinery/telecomms/broadcaster") // send this simple message to broadcasters
 
-	proc/dooropen(var/open=1, var/autoclose=1)
 
-		if(open || !open)
-			var/obj/machinery/door/airlock/A = data["server"]
 
-			if(autoclose || !autoclose)
-				A.autoclose = autoclose
+	// --- AIRLOCK PROCS --- //
 
-			if(open && !A.operating)
-				A.open()
-			else if(A.density && !A.operating)
-				A.close()
+	// TODO add execute script wire in door. --> Voice control :)
+	//		add door access proc?
+
+	proc/dooropen()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(!A.operating && A.density)
+			A.open()
+
+	proc/doorclose()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(!A.operating && !A.density)
+			A.close()
+
+	proc/doorisopen()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		return !A.density
+
+
+	proc/doorautoclose(var/autoclose=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(autoclose)
+			A.autoclose = 1
+		else
+			A.autoclose = 0
+
+	proc/doorbolt(var/bolted=0)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(bolted)
+			A.locked = 1
+			A.update_icon()
+		else
+			A.locked = 0
+			A.update_icon()
+
+	proc/doorisbolted()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		return A.locked
+
+	proc/doorlights(var/lights=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(lights)
+			A.lights = 1
+		else
+			A.lights = 0
+
+	proc/doorshock(var/shocked=0)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(shocked)
+			A.justzap = 1
+			A.electrified_until = -1
+		else
+			A.justzap = 0
+			A.electrified_until = 0
+
+	proc/doorspeed(var/normalspeed=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(!normalspeed)
+			A.normalspeed = 1
+		else
+			A.normalspeed = 0
+
+	proc/doorsafety(var/safe=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(safe)
+			A.safe = 1
+		else
+			A.safe = 0
+
+	proc/dooraicontrol(var/aicontrol=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(aicontrol)
+			A.aiControlDisabled = 0
+		else
+			A.aiControlDisabled = 1

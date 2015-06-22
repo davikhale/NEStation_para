@@ -221,27 +221,26 @@ client/verb/tcsrun()
 							M << output("([compileerrors.len] errors)", "tcserror")
 
 				else
-					// Finally, we run the code!
-					src << output("<font color = blue>TCS compilation successful! Code executed.</font color>", "tcserror")
-					src << output("(0 errors)", "tcserror")
+					if(machine in view(1, mob))
+						// Finally, we run the code!
+						src << output("<font color = blue>TCS compilation successful! Code executed.</font color>", "tcserror")
+						src << output("(0 errors)", "tcserror")
 
-					for(var/mob/M in Tool.viewingcode)
-						if(M.client)
-							M << output("<font color = blue>TCS compilation successful!</font color>", "tcserror")
-							M << output("(0 errors)", "tcserror")
+						for(var/mob/M in Tool.viewingcode)
+							if(M.client)
+								M << output("<font color = blue>TCS compilation successful!</font color>", "tcserror")
+								M << output("(0 errors)", "tcserror")
 
-					var/datum/signal/signal = new()
-					signal.data["message"] = ""
-					if(machine.freq_listening.len > 0)
-						signal.frequency = machine.freq_listening[1]
-					else
-						signal.frequency = 1459
-					signal.data["name"] = ""
-					signal.data["job"] = ""
-					signal.data["reject"] = 0
-					signal.data["server"] = machine
+						var/datum/signal/signal = new()
+						if(machine.freq_listening.len > 0)
+							signal.frequency = machine.freq_listening[1]
+						else
+							signal.frequency = 1459
+						signal.data["name"] = ""
+						signal.data["job"] = ""
+						signal.data["server"] = machine
 
-					machine.Compiler.Run(signal)
+						machine.Compiler.Run(signal)
 
 
 			else

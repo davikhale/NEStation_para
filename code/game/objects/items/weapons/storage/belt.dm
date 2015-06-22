@@ -42,6 +42,7 @@
 		"/obj/item/weapon/wirecutters",
 		"/obj/item/weapon/wrench",
 		"/obj/item/device/multitool",
+		"/obj/item/device/ntsl_tool",
 		"/obj/item/device/flashlight",
 		"/obj/item/stack/cable_coil",
 		"/obj/item/device/t_scanner",

@@ -116,14 +116,17 @@ Class Procs:
 	var/use_log = list()
 	var/list/settagwhitelist = list()//WHITELIST OF VARIABLES THAT THE set_tag HREF CAN MODIFY, DON'T PUT SHIT YOU DON'T NEED ON HERE, AND IF YOU'RE GONNA USE set_tag (format_tag() proc), ADD TO THIS LIST.
 
-	var/nnetwork = "NULL"			// Important shit for NTSL
-	var/nid = 0
+	var/nnetwork = "NULL"				// Important shit for NTSL
+	var/nid = ""
 	var/autoruncode = 0
-	var/list/memory = list()		// stored memory
-	var/rawcode = ""				// the code to compile (raw text)
-	var/datum/TCS_Compiler/Compiler	// the compiler that compiles and runs the code
-	var/datum/signal/signal			// NTSL Compiler was built around radio signals. This shiet is bootleg because lazy
-	var/list/freq_listening = list() // list of frequencies to tune into: if none, will listen to all
+	var/list/stored_names = list()		// stored names for tracking
+	var/list/memory = list()			// stored memory
+	var/rawcode = ""					// the code to compile (raw text)
+	var/datum/TCS_Compiler/Compiler		// the compiler that compiles and runs the code
+	var/datum/signal/signal = new		// NTSL Compiler was built around radio signals. This shiet is bootleg because lazy
+	var/list/freq_listening = list() 	// list of frequencies to tune into: if none, will listen to all
+
+
 
 /obj/machinery/New()
 	addAtProcessing()

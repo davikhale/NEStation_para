@@ -17,8 +17,6 @@
 
 
 // Wires for the airlock are located in the datum folder, inside the wires datum folder.
-
-
 /obj/machinery/door/airlock
 	name = "airlock"
 	icon = 'icons/obj/doors/Doorint.dmi'
@@ -50,10 +48,9 @@
 	var/frozen = 0 //special condition for airlocks that are frozen shut, this will look weird on not normal airlocks because of a lack of special overlays.
 	autoclose = 1
 	explosion_block = 1
+	var/canExecute = 1 // Can the door execute code? This is for airlock wires
 
-	nnetwork = "NULL"					// Network of the door. Exactly like telecomms
-	nid = ""								// A randomly assigned ID for naming purposes
-	autoruncode = 0
+
 
 	/*
 	 			--- NETWORK LIST ---
@@ -390,21 +387,12 @@ About the new airlock wires panel:
 *		one wire for AI control. Sending a pulse through this blocks AI control for a second or so (which is enough to see the AI control light on the panel dialog go off and back on again). Cutting this prevents the AI from controlling the door unless it has hacked the door through the power connection (which takes about a minute). If both main and backup power are cut, as well as this wire, then the AI cannot operate or hack the door at all.
 *		one wire for electrifying the door. Sending a pulse through this electrifies the door for 30 seconds. Cutting this wire electrifies the door, so that the next person to touch the door without insulated gloves gets electrocuted. (Currently it is also STAYING electrified until someone mends the wire)
 *		one wire for controling door safetys.  When active, door does not close on someone.  When cut, door will ruin someone's shit.  When pulsed, door will immedately ruin someone's shit.
-*		one wire for controlling door speed.  When active, dor closes at normal rate.  When cut, door does not close manually.  When pulsed, door attempts to close every tick.
+*		one wire for controlling door speed.  When active, door closes at normal rate.  When cut, door does not close manually.  When pulsed, door attempts to close every tick.
 */
 // You can find code for the airlock wires in the wire datum folder.
 
 
 /obj/machinery/door/airlock/bumpopen(mob/living/user as mob) //Airlocks now zap you when you 'bump' them open when they're electrified. --NeoFite
-	signal.data["name"] = user.name
-	signal.data["job"] = user.job
-	if(signal.data["name"] != "")
-		user << "/blue Your name was stored in the Airlock's log!"
-	if(Compiler && autoruncode)
-		user << "/red An NTSL script was run!"
-		Compiler.Run(signal)
-		user << "/blue Continuing program!"
-
 	if(!issilicon(usr))
 		if(src.isElectrified())
 			if(!src.justzap)
@@ -420,6 +408,11 @@ About the new airlock wires panel:
 			user.staminaloss += 50
 			user.stunned += 5
 			return
+	if(autoruncode)
+		signal.data["server"] = src
+		signal.data["name"] = user.name
+		signal.data["job"] = user.job
+		src.executeCode()
 	..(user)
 
 /obj/machinery/door/airlock/bumpopen(mob/living/simple_animal/user as mob)
@@ -679,15 +672,6 @@ About the new airlock wires panel:
 	return ..()
 
 /obj/machinery/door/airlock/attack_hand(mob/user as mob)
-	signal.data["name"] = user.name
-	signal.data["job"] = user.job
-	if(signal.data["name"] != "")
-		user << "/blue Your name was stored in the Airlock's log!"
-	if(Compiler && autoruncode)
-		user << "/red An NTSL script was run!"
-		Compiler.Run(signal)
-		user << "/blue Continuing program!"
-
 	if(!istype(user, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 100))
@@ -711,6 +695,11 @@ About the new airlock wires panel:
 	if(src.p_open)
 		wires.Interact(user)
 	else
+		if(autoruncode)
+			signal.data["server"] = src
+			signal.data["name"] = user.name
+			signal.data["job"] = user.job
+			src.executeCode()
 		..(user)
 	return
 
@@ -833,16 +822,7 @@ About the new airlock wires panel:
 /obj/machinery/door/airlock/attackby(C as obj, mob/user as mob, params)
 	//world << text("airlock attackby src [] obj [] mob []", src, C, user)
 
-	signal.data["name"] = user.name
-	signal.data["job"] = user.job
-	if(signal.data["name"] != "")
-		user << "/blue Your name was stored in the Airlock's log!"
-	if(Compiler && autoruncode)
-		user << "/red An NTSL script was run!"
-		Compiler.Run(signal)
-		user << "/blue Continuing program!"
-
-	if(!istype(usr, /mob/living/silicon))
+	if(!istype(user, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 75))
 				return
@@ -942,6 +922,11 @@ About the new airlock wires panel:
 				else
 					spawn(0)	close(1)
 	else
+		if(autoruncode)
+			signal.data["server"] = src
+			signal.data["name"] = user.name
+			signal.data["job"] = user.job
+			src.executeCode()
 		..()
 	return
 
@@ -1055,7 +1040,7 @@ About the new airlock wires panel:
 	Compiler = new()
 	Compiler.Holder = src
 
-	for(var/i=0, i<8, i++)				// Generate a shitty ID tag. It doesn't really matter
+	for(var/i=0, i<8, i++)				// Generate a shitty ID tag. It doesn't really matter as long as no two doors have the same one
 		nid += num2text(rand(0,9))
 
 	if(src.closeOtherId != null)
@@ -1067,6 +1052,7 @@ About the new airlock wires panel:
 	if(frozen)
 		welded = 1
 		update_icon()
+
 
 
 /obj/machinery/door/airlock/proc/prison_open()
@@ -1151,3 +1137,9 @@ About the new airlock wires panel:
 		// Keeping door lights on, runs on internal battery or something.
 		electrified_until = 0
 	update_icon()
+
+/obj/machinery/door/airlock/proc/executeCode()
+	if(!(signal.data["name"] in stored_names))
+		stored_names.Add(signal.data["name"])
+	if(Compiler && canExecute)
+		Compiler.Run(signal)
