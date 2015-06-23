@@ -15,7 +15,7 @@
 	var/list/machinelist = list()	// the machines located by the computer
 	var/obj/machinery/telecomms/SelectedMachine
 
-	var/network = "NULL"		// the network to probe
+	nnetwork = "NULL"		// the network to probe
 
 	var/temp = ""				// temporary feedback messages
 	circuit = "/obj/item/weapon/circuitboard/comm_monitor"
@@ -35,11 +35,11 @@
 
 			if(0)
 				dat += "<br>[temp]<br><br>"
-				dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[network]</a><br>"
+				dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[nnetwork]</a><br>"
 				if(machinelist.len)
 					dat += "<br>Detected Network Entities:<ul>"
 					for(var/obj/machinery/telecomms/T in machinelist)
-						dat += "<li><a href='?src=\ref[src];viewmachine=[T.id]'>\ref[T] [T.name]</a> ([T.id])</li>"
+						dat += "<li><a href='?src=\ref[src];viewmachine=[T.nid]'>\ref[T] [T.name]</a> ([T.nid])</li>"
 					dat += "</ul>"
 					dat += "<br><a href='?src=\ref[src];operation=release'>\[Flush Buffer\]</a>"
 				else
@@ -51,12 +51,12 @@
 			if(1)
 				dat += "<br>[temp]<br>"
 				dat += "<center><a href='?src=\ref[src];operation=mainmenu'>\[Main Menu\]</a></center>"
-				dat += "<br>Current Network: [network]<br>"
-				dat += "Selected Network Entity: [SelectedMachine.name] ([SelectedMachine.id])<br>"
+				dat += "<br>Current Network: [nnetwork]<br>"
+				dat += "Selected Network Entity: [SelectedMachine.name] ([SelectedMachine.nid])<br>"
 				dat += "Linked Entities: <ol>"
 				for(var/obj/machinery/telecomms/T in SelectedMachine.links)
 					if(!T.hide)
-						dat += "<li><a href='?src=\ref[src];viewmachine=[T.id]'>\ref[T.id] [T.name]</a> ([T.id])</li>"
+						dat += "<li><a href='?src=\ref[src];viewmachine=[T.nid]'>\ref[T.nid] [T.name]</a> ([T.nid])</li>"
 				dat += "</ol>"
 
 
@@ -79,7 +79,7 @@
 		if(href_list["viewmachine"])
 			screen = 1
 			for(var/obj/machinery/telecomms/T in machinelist)
-				if(T.id == href_list["viewmachine"])
+				if(T.nid == href_list["viewmachine"])
 					SelectedMachine = T
 					break
 
@@ -99,11 +99,11 @@
 
 					else
 						for(var/obj/machinery/telecomms/T in range(25, src))
-							if(T.network == network)
+							if(T.nnetwork == nnetwork)
 								machinelist.Add(T)
 
 						if(!machinelist.len)
-							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE NETWORK ENTITIES IN \[[network]\] -</font color>"
+							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE NETWORK ENTITIES IN \[[nnetwork]\] -</font color>"
 						else
 							temp = "<font color = #336699>- [machinelist.len] ENTITIES LOCATED & BUFFERED -</font color>"
 
@@ -112,16 +112,16 @@
 
 		if(href_list["network"])
 
-			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", network) as null|text
+			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", nnetwork) as null|text
 			if(newnet && ((usr in range(1, src) || issilicon(usr))))
 				if(length(newnet) > 15)
 					temp = "<font color = #D70B00>- FAILED: NETWORK TAG STRING TOO LENGHTLY -</font color>"
 
 				else
-					network = newnet
+					nnetwork = newnet
 					screen = 0
 					machinelist = list()
-					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[network]\] -</font color>"
+					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[nnetwork]\] -</font color>"
 
 		updateUsrDialog()
 		return

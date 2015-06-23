@@ -3,29 +3,29 @@
 //Relay
 
 /obj/machinery/telecomms/relay/preset
-	network = "tcommsat"
+	nnetwork = "tcommsat"
 
 /obj/machinery/telecomms/relay/preset/station
-	id = "Station Relay"
+	nid = "Station Relay"
 	listening_level = 1
 	autolinkers = list("s_relay")
 
 /obj/machinery/telecomms/relay/preset/telecomms
-	id = "Telecomms Relay"
+	nid = "Telecomms Relay"
 	autolinkers = list("relay")
 
 /obj/machinery/telecomms/relay/preset/mining
-	id = "Mining Relay"
+	nid = "Mining Relay"
 	autolinkers = list("m_relay")
 
 /obj/machinery/telecomms/relay/preset/ruskie
-	id = "Ruskie Relay"
+	nid = "Ruskie Relay"
 	hide = 1
 	toggled = 0
 	autolinkers = list("r_relay")
 
 /obj/machinery/telecomms/relay/preset/centcom
-	id = "Centcom Relay"
+	nid = "Centcom Relay"
 	hide = 1
 	toggled = 1
 	//anchored = 1
@@ -37,15 +37,15 @@
 //HUB
 
 /obj/machinery/telecomms/hub/preset
-	id = "Hub"
-	network = "tcommsat"
+	nid = "Hub"
+	nnetwork = "tcommsat"
 	autolinkers = list("hub", "relay", "c_relay", "s_relay", "m_relay", "r_relay", "science", "medical",
 	"supply", "service", "common", "command", "engineering", "security",
 	"receiverA", "receiverB", "broadcasterA", "broadcasterB")
-	
+
 /obj/machinery/telecomms/hub/preset_cent
-	id = "CentComm Hub"
-	network = "tcommsat"
+	nid = "CentComm Hub"
+	nnetwork = "tcommsat"
 	use_power = 0
 	autolinkers = list("hub_cent", "c_relay", "s_relay", "m_relay", "r_relay",
 	 "centcomm", "receiverCent", "broadcasterCent")
@@ -55,8 +55,8 @@
 //--PRESET LEFT--//
 
 /obj/machinery/telecomms/receiver/preset_left
-	id = "Receiver A"
-	network = "tcommsat"
+	nid = "Receiver A"
+	nnetwork = "tcommsat"
 	autolinkers = list("receiverA") // link to relay
 	freq_listening = list(1351, 1355, 1347, 1349) // science, medical, supply, service
 
@@ -64,8 +64,8 @@
 //--PRESET RIGHT--//
 
 /obj/machinery/telecomms/receiver/preset_right
-	id = "Receiver B"
-	network = "tcommsat"
+	nid = "Receiver B"
+	nnetwork = "tcommsat"
 	autolinkers = list("receiverB") // link to relay
 	freq_listening = list(1353, 1357, 1359) //command, engineering, security
 
@@ -74,10 +74,10 @@
 		for(var/i = 1441, i < 1489, i += 2)
 			freq_listening |= i
 		..()
-		
+
 /obj/machinery/telecomms/receiver/preset_cent
-	id = "CentComm Receiver"
-	network = "tcommsat"
+	nid = "CentComm Receiver"
+	nnetwork = "tcommsat"
 	use_power = 0
 	autolinkers = list("receiverCent")
 	freq_listening = list(ERT_FREQ, DTH_FREQ)
@@ -85,26 +85,26 @@
 //Buses
 
 /obj/machinery/telecomms/bus/preset_one
-	id = "Bus 1"
-	network = "tcommsat"
+	nid = "Bus 1"
+	nnetwork = "tcommsat"
 	freq_listening = list(1351, 1355)
 	autolinkers = list("processor1", "science", "medical")
 
 /obj/machinery/telecomms/bus/preset_two
-	id = "Bus 2"
-	network = "tcommsat"
+	nid = "Bus 2"
+	nnetwork = "tcommsat"
 	freq_listening = list(1347,1349)
 	autolinkers = list("processor2", "supply", "service")
 
 /obj/machinery/telecomms/bus/preset_three
-	id = "Bus 3"
-	network = "tcommsat"
+	nid = "Bus 3"
+	nnetwork = "tcommsat"
 	freq_listening = list(1359, 1353)
 	autolinkers = list("processor3", "security", "command")
 
 /obj/machinery/telecomms/bus/preset_four
-	id = "Bus 4"
-	network = "tcommsat"
+	nid = "Bus 4"
+	nnetwork = "tcommsat"
 	freq_listening = list(1357)
 	autolinkers = list("processor4", "engineering", "common")
 
@@ -112,10 +112,10 @@
 	for(var/i = 1441, i < 1489, i += 2)
 		freq_listening |= i
 	..()
-	
+
 /obj/machinery/telecomms/bus/preset_cent
-	id = "CentComm Bus"
-	network = "tcommsat"
+	nid = "CentComm Bus"
+	nnetwork = "tcommsat"
 	use_power = 0
 	freq_listening = list(ERT_FREQ, DTH_FREQ)
 	autolinkers = list("processorCent", "centcomm")
@@ -123,28 +123,28 @@
 //Processors
 
 /obj/machinery/telecomms/processor/preset_one
-	id = "Processor 1"
-	network = "tcommsat"
+	nid = "Processor 1"
+	nnetwork = "tcommsat"
 	autolinkers = list("processor1") // processors are sort of isolated; they don't need backward links
 
 /obj/machinery/telecomms/processor/preset_two
-	id = "Processor 2"
-	network = "tcommsat"
+	nid = "Processor 2"
+	nnetwork = "tcommsat"
 	autolinkers = list("processor2")
 
 /obj/machinery/telecomms/processor/preset_three
-	id = "Processor 3"
-	network = "tcommsat"
+	nid = "Processor 3"
+	nnetwork = "tcommsat"
 	autolinkers = list("processor3")
 
 /obj/machinery/telecomms/processor/preset_four
-	id = "Processor 4"
-	network = "tcommsat"
+	nid = "Processor 4"
+	nnetwork = "tcommsat"
 	autolinkers = list("processor4")
-	
+
 /obj/machinery/telecomms/processor/preset_cent
-	id = "CentComm Processor"
-	network = "tcommsat"
+	nid = "CentComm Processor"
+	nnetwork = "tcommsat"
 	use_power = 0
 	autolinkers = list("processorCent")
 
@@ -152,30 +152,30 @@
 
 /obj/machinery/telecomms/server/presets
 
-	network = "tcommsat"
+	nnetwork = "tcommsat"
 
 /obj/machinery/telecomms/server/presets/science
-	id = "Science Server"
+	nid = "Science Server"
 	freq_listening = list(1351)
 	autolinkers = list("science")
 
 /obj/machinery/telecomms/server/presets/medical
-	id = "Medical Server"
+	nid = "Medical Server"
 	freq_listening = list(1355)
 	autolinkers = list("medical")
 
 /obj/machinery/telecomms/server/presets/supply
-	id = "Supply Server"
+	nid = "Supply Server"
 	freq_listening = list(1347)
 	autolinkers = list("supply")
 
 /obj/machinery/telecomms/server/presets/service
-	id = "Service Server"
+	nid = "Service Server"
 	freq_listening = list(1349)
-	autolinkers = list("service")	
-	
+	autolinkers = list("service")
+
 /obj/machinery/telecomms/server/presets/common
-	id = "Common Server"
+	nid = "Common Server"
 	freq_listening = list()
 	autolinkers = list("common")
 
@@ -187,44 +187,44 @@
 	..()
 
 /obj/machinery/telecomms/server/presets/command
-	id = "Command Server"
+	nid = "Command Server"
 	freq_listening = list(1353)
 	autolinkers = list("command")
 
 /obj/machinery/telecomms/server/presets/engineering
-	id = "Engineering Server"
+	nid = "Engineering Server"
 	freq_listening = list(1357)
 	autolinkers = list("engineering")
 
 /obj/machinery/telecomms/server/presets/security
-	id = "Security Server"
+	nid = "Security Server"
 	freq_listening = list(1359)
 	autolinkers = list("security")
 
 /obj/machinery/telecomms/server/presets/centcomm
-	id = "CentComm Server"
+	nid = "CentComm Server"
 	freq_listening = list(ERT_FREQ, DTH_FREQ)
 	use_power = 0
-	autolinkers = list("centcomm")	
+	autolinkers = list("centcomm")
 
 //Broadcasters
 
 //--PRESET LEFT--//
 
 /obj/machinery/telecomms/broadcaster/preset_left
-	id = "Broadcaster A"
-	network = "tcommsat"
+	nid = "Broadcaster A"
+	nnetwork = "tcommsat"
 	autolinkers = list("broadcasterA")
 
 //--PRESET RIGHT--//
 
 /obj/machinery/telecomms/broadcaster/preset_right
-	id = "Broadcaster B"
-	network = "tcommsat"
+	nid = "Broadcaster B"
+	nnetwork = "tcommsat"
 	autolinkers = list("broadcasterB")
 
 /obj/machinery/telecomms/broadcaster/preset_cent
-	id = "CentComm Broadcaster"
-	network = "tcommsat"
+	nid = "CentComm Broadcaster"
+	nnetwork = "tcommsat"
 	use_power = 0
 	autolinkers = list("broadcasterCent")
