@@ -58,7 +58,7 @@ class VoiceThread(threading.Thread):
 		text = string.replace(text, "34", "")
 
 
-
+		print(type)
 		if type.find("/silicon/ai") != -1:
 			#accent = "en-us"
 			#voice = "+f4"
@@ -71,7 +71,7 @@ class VoiceThread(threading.Thread):
 			extra2 = ""
 			echo = "100"
 			if accent.find("mb") != -1:
-				accent = "en-us"
+				voice = ""
 			said = text.split(" ")
 			said2 = []
 			sysrandom = random.SystemRandom()
@@ -83,7 +83,7 @@ class VoiceThread(threading.Thread):
 				if text.find("!") != -1:
 					pitch = 90
 				aiextra = ""
-				if(random.randint(1, 10)) > 8:
+				if(random.randint(1, 10)) > 4:
 					ratenum = random.randint(8, 13) / 10
 					if ratenum == 1:
 						ratenum = ratenum - 0.1
