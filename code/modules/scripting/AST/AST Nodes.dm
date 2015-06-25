@@ -20,23 +20,23 @@ var
 	OOP_AND				- Logical and
 	OOP_BIT				- Bitwise operations
 	OOP_EQUAL			- Equality checks
-	OOP_COMPARE		- Greater than, less then, etc
+	OOP_COMPARE			- Greater than, less then, etc
 	OOP_ADD				- Addition and subtraction
-	OOP_MULTIPLY	- Multiplication and division
+	OOP_MULTIPLY		- Multiplication and division
 	OOP_POW				- Exponents
 	OOP_UNARY			- Unary Operators
 	OOP_GROUP			- Parentheses
 */
-		OOP_OR      = 							1   //||
-		OOP_AND     = OOP_OR			+ 1   	//&&
-		OOP_BIT     = OOP_AND			+ 1   //&, |
-		OOP_EQUAL   = OOP_BIT			+ 1   //==, !=
-		OOP_COMPARE = OOP_EQUAL		+ 1   //>, <, >=, <=
-		OOP_ADD     = OOP_COMPARE	+ 1 	//+, -
-		OOP_MULTIPLY= OOP_ADD			+ 1   //*, /, %
-		OOP_POW     = OOP_MULTIPLY+ 1		//^
-		OOP_UNARY   = OOP_POW			+ 1   //!
-		OOP_GROUP   = OOP_UNARY		+ 1   //()
+		OOP_OR      = 					  1 	//||
+		OOP_AND     = OOP_OR			+ 1		//&&
+		OOP_BIT     = OOP_AND			+ 1		//&, |
+		OOP_EQUAL   = OOP_BIT			+ 1		//==, !=
+		OOP_COMPARE = OOP_EQUAL			+ 1		//>, <, >=, <=
+		OOP_ADD     = OOP_COMPARE		+ 1		//+, -
+		OOP_MULTIPLY= OOP_ADD			+ 1		//*, /, %
+		OOP_POW     = OOP_MULTIPLY		+ 1		//^
+		OOP_UNARY   = OOP_POW			+ 1		//!
+		OOP_GROUP   = OOP_UNARY			+ 1		//()
 
 /*
 	Class: node

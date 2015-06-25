@@ -50,6 +50,8 @@
 
 		interpreter.container = src
 
+		// Constants
+
 		interpreter.SetVar("PI"		, 	3.141592653)	// value of pi
 		interpreter.SetVar("E" 		, 	2.718281828)	// value of e
 		interpreter.SetVar("SQURT2" , 	1.414213562)	// value of the square root of 2
@@ -61,7 +63,16 @@
 		interpreter.SetVar("EAST" 	, 	EAST)			// EAST  (4)
 		interpreter.SetVar("WEST" 	, 	WEST)			// WEST  (8)
 
+		if(signal.data["name"] != null)
+			interpreter.SetVar("$source" , 	signal.data["name"])
+		if(signal.data["job"] != null)
+			interpreter.SetVar("$job"    , 	signal.data["job"])
+		interpreter.SetVar("$sign"   ,	signal)
+
+		//  --- TELECOMMUNICATIONS VARIABLES ---  //
+
 		// Channel macros
+
 		interpreter.SetVar("$common",	1459)
 		interpreter.SetVar("$science",	1351)
 		interpreter.SetVar("$command",	1353)
@@ -70,15 +81,19 @@
 		interpreter.SetVar("$security",	1359)
 		interpreter.SetVar("$supply",	1347)
 		interpreter.SetVar("$service",	1349)
-		
+
 		// Signal data
 
-		interpreter.SetVar("$content", 	signal.data["message"])
-		interpreter.SetVar("$freq"   , 	signal.frequency)
-		interpreter.SetVar("$source" , 	signal.data["name"])
-		interpreter.SetVar("$job"    , 	signal.data["job"])
-		interpreter.SetVar("$sign"   ,	signal)
-		interpreter.SetVar("$pass"	 ,  !(signal.data["reject"])) // if the signal isn't rejected, pass = 1; if the signal IS rejected, pass = 0
+		if(signal.data["message"] != null)
+			interpreter.SetVar("$content", 	signal.data["message"])
+		if(signal.frequency != null)
+			interpreter.SetVar("$freq"   , 	signal.frequency)
+		if(signal.data["reject"] != null)
+			interpreter.SetVar("$pass"	 ,  !(signal.data["reject"])) // if the signal isn't rejected, pass = 1; if the signal IS rejected, pass = 0
+
+		//  --- AIRLOCK VARIABLES ---  //
+
+
 
 		// Set up the script procs
 
@@ -93,8 +108,84 @@
 		*/
 		interpreter.SetProc("broadcast", "tcombroadcast", signal, list("message", "freq", "source", "job"))
 
+
+
 		/*
-			-> Store a value permanently to the server machine (not the actual game hosting machine, the ingame machine)
+			-> Opens the door. Wow.
+		*/
+		interpreter.SetProc("open", "dooropen", signal, list())
+
+		/*
+			-> Closes the door. What.
+		*/
+		interpreter.SetProc("close", "doorclose", signal, list())
+
+		//	-> Returns 1 if door is open, 0 if door is not [EXAMPLE] if(isOpen()){
+		interpreter.SetProc("isOpen", "doorisopen", signal, list())
+
+		/*
+			-> Sets whether the door automatically closes
+					@format: autoclose(autoclose)
+
+					@param: autoclose: boolean autocloses or not
+		*/
+		interpreter.SetProc("autoclose", "doorautoclose", signal, list("autoclose"))
+
+		/*
+			-> Sets door bolts
+					@format: bolt(bolted)
+
+					@param: bolted: boolean bolted or not [EXAMPLE] if(isBolted()){
+		*/
+		interpreter.SetProc("bolt", "doorbolt", signal, list("bolted"))
+
+		//	-> Returns 1 if door is bolted, 0 if door is not
+		interpreter.SetProc("isBolted", "doorisbolted", signal, list())
+
+		/*
+			-> Sets door bolt lights
+					@format: lights(lights)
+
+					@param: lights: boolean on or off
+		*/
+		interpreter.SetProc("lights", "doorlights", signal, list("lights"))
+
+		/*
+			-> Sets door electrified
+					@format: shock(shocked)
+
+					@param: shocked: boolean is shocked?
+		*/
+		interpreter.SetProc("shock", "doorshock", signal, list("shocked"))
+
+		/*
+			-> Sets door speed
+					@format: speed(normalspeed)
+
+					@param: normalspeed: boolean does door close at normal speed?
+		*/
+		interpreter.SetProc("speed", "doorspeed", signal, list("normalspeed"))
+
+		/*
+			-> Sets door safe
+					@format: safe(safe)
+
+					@param: safe: boolean is door safety engaged?
+		*/
+		interpreter.SetProc("safe", "doorsafety", signal, list("safe"))
+
+		/*
+			-> Sets door AI control
+					@format: aicontrol(aicontrol)
+
+					@param: aicontrol: boolean does AI have control?
+		*/
+		interpreter.SetProc("aicontrol", "dooraicontrol", signal, list("aicontrol"))
+
+
+
+		/*
+			-> Store a value permanently to the machine (not the actual game hosting machine, the ingame machine)
 					@format: mem(address, value)
 
 					@param address:		The memory address (string index) to store a value to
@@ -183,14 +274,14 @@
 		interpreter.Run()
 
 		// Backwards-apply variables onto signal data
-		/* sanitize EVERYTHING. fucking players can't be trusted with SHIT */
+		/* sanitize EVERYTHING. fucking players can't be trusted with SHIT */	//	<-- lol true
 
 		signal.data["message"] 	= interpreter.GetVar("$content")
 		signal.frequency 		= interpreter.GetVar("$freq")
 
 		var/setname = ""
-		var/obj/machinery/telecomms/server/S = signal.data["server"]
-		if(interpreter.GetVar("$source") in S.stored_names)
+		var/obj/machinery/M = signal.data["server"]
+		if(interpreter.GetVar("$source") in M.stored_names)
 			setname = interpreter.GetVar("$source")
 		else
 			setname = "<i>[interpreter.GetVar("$source")]</i>"
@@ -207,19 +298,24 @@
 
 /*  -- Actual language proc code --  */
 
-datum/signal
+/datum/signal
+
+	// --- SHARED PROCS --- //
 
 	proc/mem(var/address, var/value)
 
 		if(istext(address))
-			var/obj/machinery/telecomms/server/S = data["server"]
+			var/obj/machinery/M = data["server"]
 
 			if(!value && value != 0)
-				return S.memory[address]
+				return M.memory[address]
 
 			else
-				S.memory[address] = value
+				M.memory[address] = value
 
+
+
+	// --- TELECOMMS PROCS ---	//
 
 	proc/tcombroadcast(var/message, var/freq, var/source, var/job)
 
@@ -234,7 +330,7 @@ datum/signal
 		if((!message || message == "") && message != 0)
 			message = "*beep*"
 		if(!source)
-			source = "[html_encode(uppertext(S.id))]"
+			source = "[html_encode(uppertext(S.nid))]"
 			hradio = new // sets the hradio as a radio intercom
 		if(!freq)
 			freq = 1459
@@ -273,3 +369,92 @@ datum/signal
 		if(!pass)
 			S.relay_information(newsign, "/obj/machinery/telecomms/broadcaster") // send this simple message to broadcasters
 
+
+
+	// --- AIRLOCK PROCS --- //
+
+	// TODO add execute script wire in door. --> Voice control :)
+	//		add door access proc?
+
+	proc/dooropen()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(!A.operating && A.density)
+			A.open()
+
+	proc/doorclose()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(!A.operating && !A.density)
+			A.close()
+
+	proc/doorisopen()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		return !A.density
+
+
+	proc/doorautoclose(var/autoclose=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(autoclose)
+			A.autoclose = 1
+		else
+			A.autoclose = 0
+
+	proc/doorbolt(var/bolted=0)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(bolted)
+			A.locked = 1
+			A.update_icon()
+		else
+			A.locked = 0
+			A.update_icon()
+
+	proc/doorisbolted()
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		return A.locked
+
+	proc/doorlights(var/lights=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(lights)
+			A.lights = 1
+		else
+			A.lights = 0
+
+	proc/doorshock(var/shocked=0)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(shocked)
+			A.justzap = 1
+			A.electrified_until = -1
+		else
+			A.justzap = 0
+			A.electrified_until = 0
+
+	proc/doorspeed(var/normalspeed=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(!normalspeed)
+			A.normalspeed = 1
+		else
+			A.normalspeed = 0
+
+	proc/doorsafety(var/safe=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(safe)
+			A.safe = 1
+		else
+			A.safe = 0
+
+	proc/dooraicontrol(var/aicontrol=1)
+		var/obj/machinery/door/airlock/A = data["server"]
+
+		if(aicontrol)
+			A.aiControlDisabled = 0
+		else
+			A.aiControlDisabled = 1

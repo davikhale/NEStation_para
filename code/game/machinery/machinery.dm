@@ -116,6 +116,18 @@ Class Procs:
 	var/use_log = list()
 	var/list/settagwhitelist = list()//WHITELIST OF VARIABLES THAT THE set_tag HREF CAN MODIFY, DON'T PUT SHIT YOU DON'T NEED ON HERE, AND IF YOU'RE GONNA USE set_tag (format_tag() proc), ADD TO THIS LIST.
 
+	var/nnetwork = "NULL"				// Important shit for NTSL
+	var/nid = ""
+	var/autoruncode = 0
+	var/list/stored_names = list()		// stored names for tracking
+	var/list/memory = list()			// stored memory
+	var/rawcode = ""					// the code to compile (raw text)
+	var/datum/TCS_Compiler/Compiler		// the compiler that compiles and runs the code
+	var/datum/signal/signal = new		// NTSL Compiler was built around radio signals. This shiet is bootleg because lazy
+	var/list/freq_listening = list() 	// list of frequencies to tune into: if none, will listen to all
+
+
+
 /obj/machinery/New()
 	addAtProcessing()
 	return ..()
@@ -512,3 +524,14 @@ Class Procs:
 			threatcount += 4
 
 	return threatcount
+
+// --- NTSL IMPLEMENTATIONS --- // <-- FruitPhD say "MY CODE IS HELD TOGETHER BY GLUE AND WALNUTS"
+
+/obj/machinery/proc/setcode(var/t)
+	if(t)
+		if(istext(t))
+			rawcode = t
+
+/obj/machinery/proc/compile()
+	if(Compiler)
+		return Compiler.Compile(rawcode)

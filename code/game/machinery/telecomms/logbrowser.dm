@@ -12,7 +12,6 @@
 	var/list/servers = list()	// the servers located by the computer
 	var/obj/machinery/telecomms/server/SelectedServer
 
-	var/network = "NULL"		// the network to probe
 	var/temp = ""				// temporary feedback messages
 
 	var/universal_translate = 0 // set to 1 if it can translate nonhuman speech
@@ -33,11 +32,11 @@
 
 			if(0)
 				dat += "<br>[temp]<br>"
-				dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[network]</a><br>"
+				dat += "<br>Current Network: <a href='?src=\ref[src];network=1'>[nnetwork]</a><br>"
 				if(servers.len)
 					dat += "<br>Detected Telecommunication Servers:<ul>"
 					for(var/obj/machinery/telecomms/T in servers)
-						dat += "<li><a href='?src=\ref[src];viewserver=[T.id]'>\ref[T] [T.name]</a> ([T.id])</li>"
+						dat += "<li><a href='?src=\ref[src];viewserver=[T.nid]'>\ref[T] [T.name]</a> ([T.nid])</li>"
 					dat += "</ul>"
 					dat += "<br><a href='?src=\ref[src];operation=release'>\[Flush Buffer\]</a>"
 
@@ -50,8 +49,8 @@
 			if(1)
 				dat += "<br>[temp]<br>"
 				dat += "<center><a href='?src=\ref[src];operation=mainmenu'>\[Main Menu\]</a>     <a href='?src=\ref[src];operation=refresh'>\[Refresh\]</a></center>"
-				dat += "<br>Current Network: [network]"
-				dat += "<br>Selected Server: [SelectedServer.id]"
+				dat += "<br>Current Network: [nnetwork]"
+				dat += "<br>Selected Server: [SelectedServer.nid]"
 
 				if(SelectedServer.totaltraffic >= 1024)
 					dat += "<br>Total recorded traffic: [round(SelectedServer.totaltraffic / 1024)] Terrabytes<br><br>"
@@ -151,7 +150,7 @@
 		if(href_list["viewserver"])
 			screen = 1
 			for(var/obj/machinery/telecomms/T in servers)
-				if(T.id == href_list["viewserver"])
+				if(T.nid == href_list["viewserver"])
 					SelectedServer = T
 					break
 
@@ -171,11 +170,11 @@
 
 					else
 						for(var/obj/machinery/telecomms/server/T in range(25, src))
-							if(T.network == network)
+							if(T.nnetwork == nnetwork)
 								servers.Add(T)
 
 						if(!servers.len)
-							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE SERVERS IN \[[network]\] -</font color>"
+							temp = "<font color = #D70B00>- FAILED: UNABLE TO LOCATE SERVERS IN \[[nnetwork]\] -</font color>"
 						else
 							temp = "<font color = #336699>- [servers.len] SERVERS PROBED & BUFFERED -</font color>"
 
@@ -201,7 +200,7 @@
 
 		if(href_list["network"])
 
-			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", network) as null|text
+			var/newnet = input(usr, "Which network do you want to view?", "Comm Monitor", nnetwork) as null|text
 
 			if(newnet && ((usr in range(1, src) || issilicon(usr))))
 				if(length(newnet) > 15)
@@ -209,10 +208,10 @@
 
 				else
 
-					network = newnet
+					nnetwork = newnet
 					screen = 0
 					servers = list()
-					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[network]\] -</font color>"
+					temp = "<font color = #336699>- NEW NETWORK TAG SET IN ADDRESS \[[nnetwork]\] -</font color>"
 
 		updateUsrDialog()
 		return
