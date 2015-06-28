@@ -292,7 +292,10 @@
 	S["undershirt"]			>> undershirt
 	S["backbag"]			>> backbag
 	S["b_type"]				>> b_type
-
+	S["accent"]				<< accent
+	S["voice"]				<< voice
+	S["pitch"]				<< pitch
+	S["talkspeed"]			<< talkspeed
 	//Jobs
 	S["alternate_option"]	>> alternate_option
 	S["job_civilian_high"]	>> job_civilian_high

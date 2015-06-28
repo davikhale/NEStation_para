@@ -122,7 +122,10 @@ datum/preferences
 	var/b_eyes = 0						//Eye color
 	var/species = "Human"
 	var/language = "None"				//Secondary language
-
+	var/accent = "en-us"
+	var/voice = "m1"
+	var/pitch = 50
+	var/talkspeed = 175
 
 	var/speciesprefs = 0//I hate having to do this, I really do (Using this for oldvox code, making names universal I guess
 
@@ -234,6 +237,10 @@ datum/preferences
 				if(species == "Vox")//oldvox code, sucks I know
 					dat += "Old Vox? <a href='?_src_=prefs;preference=speciesprefs;task=input'>[speciesprefs ? "Yes (Large N2 tank)" : "No(Vox-special N2 tank)"]</a><br>"
 				dat += "Secondary Language:<br><a href='?_src_=prefs;preference=language;task=input'>[language]</a><br>"
+				dat += "Accent: <a href='byond://?src=\ref[user];preference=accent;task=input'>[accent]</a><br>"
+				dat += "Voice: <a href='byond://?src=\ref[user];preference=voice;task=input'>[voice]</a><br>"
+				dat += "Pitch: <a href='?_src_=prefs;preference=pitch;task=input'>[pitch]</a><br>"
+				dat += "Talking Speed: <a href='?_src_=prefs;preference=talkspeed;task=input'>[talkspeed]</a><br>"
 				dat += "Blood Type: <a href='?_src_=prefs;preference=b_type;task=input'>[b_type]</a><br>"
 				if(species == "Human")
 					dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
@@ -1141,7 +1148,22 @@ datum/preferences
 						var/new_h_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in valid_hairstyles
 						if(new_h_style)
 							h_style = new_h_style
-
+					if("accent")
+						var/new_accent = input(user, "Choose your accent.", "Character Preference") as null|anything in list("en-us", "en", "en-sc")
+						if(new_accent)
+							accent = new_accent
+					if("voice")
+						var/new_voice = input(user, "Choose your voice. f:Female, m:Male", "Character Preference") as null|anything in list("f1","m1","f2","m2","f3","m3","f4","m4","f5","m5","m6","m7")
+						if(new_voice)
+							voice = new_voice
+					if("pitch")
+						var/new_pitch = input(user, "Choose your character's voice pitch:\n(0-99) Default is 50.", "Character Preference") as num|null
+						if(new_pitch)
+							pitch = max(min( round(text2num(new_pitch)), 99),0)
+					if("talkspeed")
+						var/new_talkspeed = input(user, "Choose your character's voice talk speed:\n(140-240) Default is 175.", "Character Preference") as num|null
+						if(new_talkspeed)
+							talkspeed = max(min( round(text2num(new_talkspeed)), 240),140)
 					if("facial")
 						var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference") as color|null
 						if(new_facial)

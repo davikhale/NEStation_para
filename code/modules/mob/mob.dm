@@ -1498,3 +1498,42 @@ mob/proc/yank_out_object()
 
 /mob/proc/handle_ventcrawl()
 	return // Only living mobs can ventcrawl
+
+	
+/mob/verb/ChangePitch()
+	set category = "Voice"
+	set name = "Change voice pitch"
+	set desc = "Change your pitch."
+	if(src && src.client && src.client.prefs)
+		var/new_pitch = input(src, "Choose your character's pitch:\n(1-99)", "Voice Preference") as num|null
+		if(new_pitch)
+			src.client.prefs.pitch = max(min( round(text2num(new_pitch)), 99),1)
+
+/mob/verb/ChangeSpeed()
+	set category = "Voice"
+	set name = "Change voice talking speed"
+	set desc = "Change your talking speed."
+	if(src && src.client && src.client.prefs)
+		var/new_talkspeed = input(src, "Choose your character's voice talk speed:\n(140-240) Default is 175.", "Character Preference") as num|null
+		if(new_talkspeed)
+			src.client.prefs.talkspeed = max(min( round(text2num(new_talkspeed)), 240),140)
+
+/mob/verb/ChangeAccent()
+	set category = "Voice"
+	set name = "Change voice accent"
+	set desc = "Change your accent."
+	if(src && src.client && src.client.prefs)
+		var/new_accent = input(src, "Choose your accent.", "Character Preference") as null|anything in list("en-us", "en", "en-sc")
+		if(new_accent)
+			src.client.prefs.accent = new_accent
+
+/mob/verb/ChangeVoice()
+	set category = "Voice"
+	set name = "Change voice"
+	set desc = "Change your voice."
+	if(src && src.client && src.client.prefs)
+		var/new_voice = input(src, "Choose your voice. f:Female, m:Male", "Character Preference") as null|anything in list("f1","m1","f2","m2","f3","m3","f4","m4","f5","m5","m6","m7")
+		if(new_voice)
+			src.client.prefs.voice = new_voice
+
+	

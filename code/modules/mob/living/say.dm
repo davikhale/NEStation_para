@@ -68,7 +68,26 @@ proc/get_radio_key_from_channel(var/channel)
 	return default_language
 
 /mob/living/say(var/message, var/datum/language/speaking = null, var/verb="says", var/alt_name="", var/italics=0, var/message_range = world.view, var/sound/speech_sound, var/sound_vol)
-
+	var/accent = "en-us"
+	var/voice = "m7"
+	var/speed = 175
+	var/pitch = 0
+	var/echo = 10
+	var/name = ""
+	if(istype(src, /mob/living/silicon/ai))
+		echo = 90
+	if(istype(src, /mob/living/silicon/robot))
+		echo = 60
+	if(src.client && src.client.prefs)
+		accent = src.client.prefs.accent
+		voice = src.client.prefs.voice
+		speed = src.client.prefs.talkspeed
+		pitch = src.client.prefs.pitch
+	if(src.ckey == "" || !src.ckey)
+		name = "\ref[src]"
+	else
+		name = src.ckey
+	src:texttospeech(message, speed, pitch, accent, "+[voice]", echo, name)
 	var/turf/T = get_turf(src)
 
 	//handle nonverbal and sign languages here

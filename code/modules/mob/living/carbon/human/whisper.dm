@@ -130,6 +130,17 @@
 	watching  -= listening
 	watching  -= eavesdropping
 
+	var/accent = "en-us"
+	var/voice = "m7"
+	var/speed = 175
+	var/pitch = 0
+	if(src.client && src.client.prefs)
+		accent = src.client.prefs.accent
+		voice = "whisper"
+		speed = src.client.prefs.talkspeed
+		pitch = src.client.prefs.pitch
+	src:texttospeech(message, speed, pitch, accent, "+[voice]", 5)
+	
 	//now mobs
 	var/speech_bubble_test = say_test(message)
 	var/image/speech_bubble = image('icons/mob/talk.dmi',src,"h[speech_bubble_test]")

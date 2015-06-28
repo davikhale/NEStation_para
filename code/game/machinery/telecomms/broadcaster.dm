@@ -52,7 +52,23 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 	   /** #### - Normal Broadcast - #### **/
 
 		if(signal.data["type"] == 0)
-
+			var/message = signal.data["message"]
+			var/accent = "en-us"
+			var/voice = "m7"
+			var/speed = 175
+			var/pitch = 0
+			var/echo = 10
+			var/mob/themob = signal.data["mob"]
+			if(istype(themob, /mob/living/silicon/ai))
+				echo = 90
+			if(istype(themob, /mob/living/silicon/robot))
+				echo = 60
+			if(themob.client && themob.client.prefs)
+				accent = themob.client.prefs.accent
+				voice = themob.client.prefs.voice
+				speed = themob.client.prefs.talkspeed
+				pitch = themob.client.prefs.pitch
+			themob:texttospeech(message, speed, pitch, accent, "+[voice]", echo)
 			/* ###### Broadcast a message using signal.data ###### */
 			Broadcast_Message(signal.data["connection"], signal.data["mob"],
 							  signal.data["vmask"], signal.data["vmessage"],
@@ -78,6 +94,23 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 
 		if(signal.data["type"] == 2)
 
+			var/message = signal.data["message"]
+			var/accent = "en-us"
+			var/voice = "m7"
+			var/speed = 175
+			var/pitch = 0
+			var/echo = 10
+			var/mob/themob = signal.data["mob"]
+			if(istype(themob, /mob/living/silicon/ai))
+				echo = 90
+			if(istype(themob, /mob/living/silicon/robot))
+				echo = 60
+			if(themob.client && themob.client.prefs)
+				accent = themob.client.prefs.accent
+				voice = themob.client.prefs.voice
+				speed = themob.client.prefs.talkspeed
+				pitch = themob.client.prefs.pitch
+			themob:texttospeech(message, speed, pitch, accent, "+[voice]", echo)
 			/* ###### Broadcast a message using signal.data ###### */
 				// Parameter "data" as 4: AI can't track this person/mob
 
@@ -576,13 +609,40 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 	 /* ###### Send the message ###### */
 
 		/* --- Process all the mobs that heard the voice normally (understood) --- */
+		
+		var/accent = "en-us"
+		var/voice = "m7"
+		var/speed = 175
+		var/pitch = 0
+		var/echo = 30
+		if(M.client && M.client.prefs)
+			accent = M.client.prefs.accent
+			voice = M.client.prefs.voice
+			speed = M.client.prefs.talkspeed
+			pitch = M.client.prefs.pitch
+		if(istype(M, /mob/living/silicon/ai))
+			echo += 40
+		src:texttospeech(text, speed, pitch, accent, "+[voice]", echo)
 
+		
 		if (length(heard_normal))
 			var/rendered = "[part_a][source][part_b]\"[text]\"[part_c]"
-
+			var/name = ""
+			if(!M.ckey)
+				name = "\ref[M]"
+			else
+				name = M.ckey
 			for (var/mob/R in heard_normal)
 				R.show_message(rendered, 2)
-
+				spawn(10)
+					if(fexists("sound/playervoices/[name].ogg"))
+						var/sound_file = file("sound/playervoices/[name].ogg")
+						var/sound/voice2 = sound(sound_file, wait = 1, channel = 0)
+						voice2.status = SOUND_STREAM
+						if(R.client)
+							if(R.client.prefs)
+								if(R.client.prefs.toggles & SOUND_VOICES)
+									R << voice2
 		/* --- Process all the mobs that heard a garbled voice (did not understand) --- */
 			// Displays garbled message (ie "f*c* **u, **i*er!")
 

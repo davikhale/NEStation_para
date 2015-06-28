@@ -1,0 +1,16 @@
+This file documents ~all~ instances of voice code present throughout the repository.
+It should make things easier to find when debugging or adding features.
+Please expand this list if you add to it.
+
+voice.dll
+/scripts/voicequeue.txt
+/scripts/voicescript.py
+/code/game/machinery/telecomms/broadcaster.dm
+/code/game/objects/items/devices/radio/radio.dm
+/code/modules/client/preferences.dm
+/code/modules/client/preferences_savefiles.dm
+/code/modules/mob/texttospeech.dm
+/code/modules/mob/mob.dm
+/code/modules/mob/hear_say.dm
+/code/modules/mob/living/say.dm
+/code/modules/mob/living/carbon/whisper.dm

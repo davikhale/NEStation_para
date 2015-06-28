@@ -2,8 +2,8 @@ var/datum/configuration/config = null
 
 var/host = null
 var/join_motd = null
-var/station_name = "NSS Cyberiad"
-var/game_version = "Custom ParaCode"
+var/station_name = "NSS Exodus"
+var/game_version = "Custom EdenCode"
 var/changelog_hash = ""
 var/game_year = (text2num(time2text(world.realtime, "YYYY")) + 544)
 

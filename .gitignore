@@ -11,6 +11,9 @@
 !/config/example
 !/config/names
 
+#ignore files involving playervoices
+/sound/playervoices/*
+
 #ignore other, specific files and folers
 data/
 /_maps/map_files/backup/*

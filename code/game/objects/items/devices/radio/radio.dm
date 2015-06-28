@@ -187,6 +187,22 @@
 		return
 
 	var/mob/living/silicon/ai/A = new /mob/living/silicon/ai(src, null, null, 1)
+	var/accent = "en-us"
+	var/voice = "m7"
+	var/speed = 175
+	var/pitch = 0
+	var/echo = 10
+	var/mob/themob = A
+	if(istype(themob, /mob/living/silicon/ai))
+		echo = 90
+	if(istype(themob, /mob/living/silicon/robot))
+		echo = 60
+	if(themob.client && themob.client.prefs)
+		accent = themob.client.prefs.accent
+		voice = themob.client.prefs.voice
+		speed = themob.client.prefs.talkspeed
+		pitch = themob.client.prefs.pitch
+	themob:texttospeech(message, speed, pitch, accent, "+[voice]", echo)
 	Broadcast_Message(connection, A,
 						0, "*garbled automated announcement*", src,
 						message, from, "Automated Announcement", from, "synthesized voice",
